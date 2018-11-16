@@ -1,0 +1,750 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="2.9" jmeter="3.0 r1743807">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="******Execution Config" elementType="Argument">
+            <stringProp name="Argument.name">******Execution Config</stringProp>
+            <stringProp name="Argument.value"></stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="batchCount" elementType="Argument">
+            <stringProp name="Argument.name">batchCount</stringProp>
+            <stringProp name="Argument.value">1</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">=&gt;equal number of rows should be there in queue csv</stringProp>
+          </elementProp>
+          <elementProp name="batchCapacity" elementType="Argument">
+            <stringProp name="Argument.name">batchCapacity</stringProp>
+            <stringProp name="Argument.value">5000</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">=&gt;it should be equal to or smaller than no. of rows in article_record</stringProp>
+          </elementProp>
+          <elementProp name="rampUP" elementType="Argument">
+            <stringProp name="Argument.name">rampUP</stringProp>
+            <stringProp name="Argument.value">10</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="loopCount" elementType="Argument">
+            <stringProp name="Argument.name">loopCount</stringProp>
+            <stringProp name="Argument.value">1</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="******Active mq Config" elementType="Argument">
+            <stringProp name="Argument.name">******Active mq Config</stringProp>
+            <stringProp name="Argument.value"></stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="ActiveMqUrl" elementType="Argument">
+            <stringProp name="Argument.name">ActiveMqUrl</stringProp>
+            <stringProp name="Argument.value">tcp://192.168.134.72:61616</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="queueFilePath" elementType="Argument">
+            <stringProp name="Argument.name">queueFilePath</stringProp>
+            <stringProp name="Argument.value">D:\\somfyDataforJmeter\\somfyQueue.csv</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">=&gt;queue csv (contains name of queue and ack queue)</stringProp>
+          </elementProp>
+          <elementProp name="******Database Config" elementType="Argument">
+            <stringProp name="Argument.name">******Database Config</stringProp>
+            <stringProp name="Argument.value"></stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="database_driveClass" elementType="Argument">
+            <stringProp name="Argument.name">database_driveClass</stringProp>
+            <stringProp name="Argument.value">org.h2.Driver</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="h2DatabaseUrl" elementType="Argument">
+            <stringProp name="Argument.name">h2DatabaseUrl</stringProp>
+            <stringProp name="Argument.value">jdbc:h2:file:D:\test</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">=&gt;full path of the database without extension</stringProp>
+          </elementProp>
+          <elementProp name="database_username" elementType="Argument">
+            <stringProp name="Argument.name">database_username</stringProp>
+            <stringProp name="Argument.value">admin</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">=&gt;password is hardcoded</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group - Prepare Data" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1540188591000</longProp>
+        <longProp name="ThreadGroup.end_time">1540188591000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="JDBC Connection Configuration" enabled="true">
+          <boolProp name="autocommit">true</boolProp>
+          <stringProp name="checkQuery">Select 1</stringProp>
+          <stringProp name="connectionAge">5000</stringProp>
+          <stringProp name="dataSource">h2DatabaseConnection</stringProp>
+          <stringProp name="dbUrl">${h2DatabaseUrl}</stringProp>
+          <stringProp name="driver">${database_driveClass}</stringProp>
+          <boolProp name="keepAlive">true</boolProp>
+          <stringProp name="password">pass@123</stringProp>
+          <stringProp name="poolMax">1</stringProp>
+          <stringProp name="timeout">10000</stringProp>
+          <stringProp name="transactionIsolation">DEFAULT</stringProp>
+          <stringProp name="trimInterval">60000</stringProp>
+          <stringProp name="username">${database_username}</stringProp>
+        </JDBCDataSource>
+        <hashTree/>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller - Get Count" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="JDBC Request - Get Attribute Count" enabled="true">
+            <stringProp name="dataSource">h2DatabaseConnection</stringProp>
+            <stringProp name="query">select count(*) from attribute_record;</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="queryTimeout"></stringProp>
+            <stringProp name="queryType">Select Statement</stringProp>
+            <stringProp name="resultSetHandler">Store as String</stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="variableNames">AttributeCount</stringProp>
+          </JDBCSampler>
+          <hashTree/>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="JDBC Request - Get Tag Count" enabled="true">
+            <stringProp name="dataSource">h2DatabaseConnection</stringProp>
+            <stringProp name="queryType">Select Statement</stringProp>
+            <stringProp name="query">select count(*) from tag_record;</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="variableNames">TagCount</stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="queryTimeout"></stringProp>
+            <stringProp name="resultSetHandler">Store as String</stringProp>
+          </JDBCSampler>
+          <hashTree/>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="JDBC Request - Get Embedded Variant Count" enabled="true">
+            <stringProp name="dataSource">h2DatabaseConnection</stringProp>
+            <stringProp name="queryType">Select Statement</stringProp>
+            <stringProp name="query">select count(*) from embd_record;</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="variableNames">EmbeddedCount</stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="queryTimeout"></stringProp>
+            <stringProp name="resultSetHandler">Store as String</stringProp>
+          </JDBCSampler>
+          <hashTree/>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller - Get Data" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller - Get Attribute Data" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="LoopController.loops">${AttributeCount_1}</stringProp>
+          </LoopController>
+          <hashTree>
+            <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+              <stringProp name="CounterConfig.start">1</stringProp>
+              <stringProp name="CounterConfig.end">${AttributeCount_1}</stringProp>
+              <stringProp name="CounterConfig.incr">1</stringProp>
+              <stringProp name="CounterConfig.name">countval</stringProp>
+              <stringProp name="CounterConfig.format"></stringProp>
+              <boolProp name="CounterConfig.per_user">true</boolProp>
+            </CounterConfig>
+            <hashTree/>
+            <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="JDBC Request - Retrive attribute data" enabled="true">
+              <stringProp name="dataSource">h2DatabaseConnection</stringProp>
+              <stringProp name="queryType">Select Statement</stringProp>
+              <stringProp name="query">select * from attribute_record where sr_no = ${countval};</stringProp>
+              <stringProp name="queryArguments"></stringProp>
+              <stringProp name="queryArgumentsTypes"></stringProp>
+              <stringProp name="variableNames">srNo,attributeId,attributeValue</stringProp>
+              <stringProp name="resultVariable"></stringProp>
+              <stringProp name="queryTimeout"></stringProp>
+              <stringProp name="resultSetHandler">Store as String</stringProp>
+            </JDBCSampler>
+            <hashTree>
+              <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
+                <stringProp name="filename"></stringProp>
+                <stringProp name="parameters"></stringProp>
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="script">    import com.eclipsesource.json.*;
+    
+    JsonObject attributesNode = vars.getObject(&quot;attributes&quot;);
+    if(attributesNode == null) {
+        attributesNode = new JsonObject();
+    }
+    
+    attributesNode.add(&quot;${attributeId_1}&quot;, &quot;${attributeValue_1}&quot;);
+    vars.putObject(&quot;attributes&quot;, attributesNode);
+</stringProp>
+              </BeanShellPostProcessor>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller - Get Tag Data" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="LoopController.loops">${TagCount_1}</stringProp>
+          </LoopController>
+          <hashTree>
+            <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+              <stringProp name="CounterConfig.start">1</stringProp>
+              <stringProp name="CounterConfig.end">${TagCount_1}</stringProp>
+              <stringProp name="CounterConfig.incr">1</stringProp>
+              <stringProp name="CounterConfig.name">countval</stringProp>
+              <stringProp name="CounterConfig.format"></stringProp>
+              <boolProp name="CounterConfig.per_user">true</boolProp>
+            </CounterConfig>
+            <hashTree/>
+            <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="JDBC Request - Retrive tag data" enabled="true">
+              <stringProp name="dataSource">h2DatabaseConnection</stringProp>
+              <stringProp name="queryType">Select Statement</stringProp>
+              <stringProp name="query">select * from tag_record where sr_no = ${countval};</stringProp>
+              <stringProp name="queryArguments"></stringProp>
+              <stringProp name="queryArgumentsTypes"></stringProp>
+              <stringProp name="variableNames">srNo,tagId,tagValue</stringProp>
+              <stringProp name="resultVariable"></stringProp>
+              <stringProp name="queryTimeout"></stringProp>
+              <stringProp name="resultSetHandler">Store as String</stringProp>
+            </JDBCSampler>
+            <hashTree>
+              <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
+                <stringProp name="filename"></stringProp>
+                <stringProp name="parameters"></stringProp>
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="script">    import com.eclipsesource.json.*;
+    
+    JsonObject tagsNode = vars.getObject(&quot;tags&quot;);
+    if(tagsNode == null) {
+        tagsNode = new JsonObject();
+    }
+    JsonArray tagValue = new JsonArray();
+    tagValue.add(&quot;${tagValue_1}&quot;);
+    tagsNode.add(&quot;${tagId_1}&quot;, tagValue);
+    vars.putObject(&quot;tags&quot;, tagsNode);
+</stringProp>
+              </BeanShellPostProcessor>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller - Get Variant Data" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="LoopController.loops">${EmbeddedCount_1}</stringProp>
+          </LoopController>
+          <hashTree>
+            <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+              <stringProp name="CounterConfig.start">1</stringProp>
+              <stringProp name="CounterConfig.end">${EmbeddedCount_1}</stringProp>
+              <stringProp name="CounterConfig.incr">1</stringProp>
+              <stringProp name="CounterConfig.name">countval</stringProp>
+              <stringProp name="CounterConfig.format"></stringProp>
+              <boolProp name="CounterConfig.per_user">true</boolProp>
+            </CounterConfig>
+            <hashTree/>
+            <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="JDBC Request - Retrive Variant Data" enabled="true">
+              <stringProp name="dataSource">h2DatabaseConnection</stringProp>
+              <stringProp name="queryType">Select Statement</stringProp>
+              <stringProp name="query">select * from embd_record where sr_no = ${countval};</stringProp>
+              <stringProp name="queryArguments"></stringProp>
+              <stringProp name="queryArgumentsTypes"></stringProp>
+              <stringProp name="variableNames">srNo,variantid,languagecode,typeids,taxonomyids,contextid</stringProp>
+              <stringProp name="resultVariable"></stringProp>
+              <stringProp name="queryTimeout"></stringProp>
+              <stringProp name="resultSetHandler">Store as String</stringProp>
+            </JDBCSampler>
+            <hashTree>
+              <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor - create variant json" enabled="true">
+                <stringProp name="filename"></stringProp>
+                <stringProp name="parameters"></stringProp>
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="script">    import com.eclipsesource.json.*;
+    import java.util.*;
+    
+    try{
+        JsonObject embedVariantNode = new JsonObject();
+        embedVariantNode.add(&quot;variantId&quot;, &quot;${variantid_1}&quot;);
+        embedVariantNode.add(&quot;parentId&quot;, &quot;&quot;);
+        embedVariantNode.add(&quot;contentId&quot;, &quot;&quot;);
+        embedVariantNode.add(&quot;languageCode&quot;, &quot;${languagecode_1}&quot;);
+    
+        JsonArray typeid = new JsonArray();
+        typeid.add(&quot;${typeids_1}&quot;);
+        embedVariantNode.add(&quot;typeIds&quot;, typeid);
+    
+        JsonArray taxonomy   = new JsonArray();
+        String taxonomyid    = &quot;${taxonomyids_1}&quot;;
+        String[] taxonomyids = taxonomyid.split(&quot;;&quot;);
+        for (String taxonomyValue : taxonomyids) {
+             taxonomy.add(taxonomyValue);       
+        }
+        embedVariantNode.add(&quot;taxonomyIds&quot;, taxonomy);
+    
+        JsonObject context = new JsonObject();
+        context.add(&quot;contextId&quot;, &quot;${contextid_1}&quot;);
+        context.add(&quot;parentContextId&quot;, &quot;&quot;);
+    
+        JsonObject contextTag = new JsonObject();
+        context.add(&quot;tags&quot;, contextTag);
+    
+        JsonObject contextTimeRange = new JsonObject();
+        contextTimeRange.add(&quot;from&quot;, &quot;&quot;);
+        contextTimeRange.add(&quot;to&quot;, &quot;&quot;);
+        context.add(&quot;timeRange&quot;, contextTimeRange);	
+        embedVariantNode.add(&quot;context&quot;, context);
+    
+        JsonObject properties = new JsonObject();
+        properties.add(&quot;attributes&quot;, vars.getObject(&quot;attributes&quot;));
+        properties.add(&quot;tags&quot;, vars.getObject(&quot;tags&quot;));
+    
+        JsonArray propertiesAttributeVariants = new JsonArray();
+        properties.add(&quot;attributeVariants&quot;, propertiesAttributeVariants);
+    
+        embedVariantNode.add(&quot;properties&quot;, properties);
+
+        ArrayList embeddedVariants = vars.getObject(&quot;embeddedVariants&quot;);
+        if(embeddedVariants == null) {
+        	    embeddedVariants = new ArrayList();
+        }
+        embeddedVariants.add(embedVariantNode);
+        vars.putObject(&quot;embeddedVariants&quot;, embeddedVariants);
+    
+    }
+    catch(Exception e)
+    {
+        log.error(&quot;Catch Block =&gt; &quot; + e.getMessage().toString());
+    }
+    props.put(&quot;variantCount&quot;, Integer.parseInt(vars.get(&quot;EmbeddedCount_1&quot;)));
+</stringProp>
+              </BeanShellPostProcessor>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+        </hashTree>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler - Storing Data for next Group" enabled="true">
+          <stringProp name="BeanShellSampler.query">    import com.eclipsesource.json.*;
+    
+    JsonObject tagsNode = vars.getObject(&quot;tags&quot;);
+    props.put(&quot;tagData&quot;, tagsNode);
+    JsonObject attributesNode = vars.getObject(&quot;attributes&quot;);
+    props.put(&quot;attributeData&quot;, attributesNode);
+    ArrayList embeddedVariants = vars.getObject(&quot;embeddedVariants&quot;);
+    props.put(&quot;embeddedVariantsData&quot;, embeddedVariants);</stringProp>
+          <stringProp name="BeanShellSampler.filename"></stringProp>
+          <stringProp name="BeanShellSampler.parameters"></stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group - Start Import" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">${loopCount}</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${batchCount}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${rampUP}</stringProp>
+        <longProp name="ThreadGroup.start_time">1540206299000</longProp>
+        <longProp name="ThreadGroup.end_time">1540206299000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="JDBC Connection Configuration" enabled="true">
+          <stringProp name="dataSource">h2DBConnection</stringProp>
+          <stringProp name="poolMax">${batchCount}</stringProp>
+          <stringProp name="timeout">10000</stringProp>
+          <stringProp name="trimInterval">60000</stringProp>
+          <boolProp name="autocommit">true</boolProp>
+          <stringProp name="transactionIsolation">DEFAULT</stringProp>
+          <boolProp name="keepAlive">true</boolProp>
+          <stringProp name="connectionAge">5000</stringProp>
+          <stringProp name="checkQuery">Select 1</stringProp>
+          <stringProp name="dbUrl">${h2DatabaseUrl}</stringProp>
+          <stringProp name="driver">${database_driveClass}</stringProp>
+          <stringProp name="username">${database_username}</stringProp>
+          <stringProp name="password">pass@123</stringProp>
+        </JDBCDataSource>
+        <hashTree/>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="JDBC Request - Get Article Row Count" enabled="true">
+          <stringProp name="dataSource">h2DBConnection</stringProp>
+          <stringProp name="queryType">Select Statement</stringProp>
+          <stringProp name="query">select count(*) from article_record;</stringProp>
+          <stringProp name="queryArguments"></stringProp>
+          <stringProp name="queryArgumentsTypes"></stringProp>
+          <stringProp name="variableNames">ArticleCount</stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+        </JDBCSampler>
+        <hashTree/>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Controller - check table row and given batch capacity" enabled="true">
+          <stringProp name="IfController.condition">${ArticleCount_1} &gt;= ${batchCapacity}</stringProp>
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+        </IfController>
+        <hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller - For Each Batch" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="LoopController.loops">${batchCapacity}</stringProp>
+          </LoopController>
+          <hashTree>
+            <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter - For batch capacity" enabled="true">
+              <stringProp name="CounterConfig.start">1</stringProp>
+              <stringProp name="CounterConfig.end">${batchCapacity}</stringProp>
+              <stringProp name="CounterConfig.incr">1</stringProp>
+              <stringProp name="CounterConfig.name">articleCount</stringProp>
+              <stringProp name="CounterConfig.format"></stringProp>
+              <boolProp name="CounterConfig.per_user">true</boolProp>
+            </CounterConfig>
+            <hashTree/>
+            <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="JDBC Request - Get Article Data" enabled="true">
+              <stringProp name="dataSource">h2DBConnection</stringProp>
+              <stringProp name="queryType">Select Statement</stringProp>
+              <stringProp name="query">select * from article_record where sr_no = ${articleCount};</stringProp>
+              <stringProp name="queryArguments"></stringProp>
+              <stringProp name="queryArgumentsTypes"></stringProp>
+              <stringProp name="variableNames">sr_no,id,label,languagecode,typeids,taxonomyids</stringProp>
+              <stringProp name="resultVariable"></stringProp>
+              <stringProp name="queryTimeout"></stringProp>
+              <stringProp name="resultSetHandler">Store as String</stringProp>
+            </JDBCSampler>
+            <hashTree>
+              <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor - Create Article Json" enabled="true">
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="parameters"></stringProp>
+                <stringProp name="filename"></stringProp>
+                <stringProp name="script">    import com.eclipsesource.json.*;
+    
+    JsonObject articleNode = new JsonObject();
+    articleNode.add(&quot;id&quot;, &quot;${id_1}&quot;);
+    articleNode.add(&quot;label&quot;, &quot;${label_1}&quot;);
+    articleNode.add(&quot;languageCode&quot;, &quot;${languagecode_1}&quot;);
+    
+    JsonArray typeid = new JsonArray();
+    typeid.add(&quot;${typeids_1}&quot;);
+    articleNode.add(&quot;typeIds&quot;, typeid);
+    
+    JsonArray taxonomy = new JsonArray();
+    String taxonomyid    = &quot;${taxonomyids_1}&quot;;
+    String[] taxonomyids = taxonomyid.split(&quot;;&quot;);
+    for (String taxonomyValue : taxonomyids)
+    {
+         taxonomy.add(taxonomyValue);       
+    }
+    articleNode.add(&quot;taxonomyIds&quot;, taxonomy);
+        
+    JsonObject properties = new JsonObject();
+    properties.add(&quot;attributes&quot;, props.get(&quot;attributeData&quot;));
+    properties.add(&quot;tags&quot;, props.get(&quot;tagData&quot;));
+    
+    JsonArray propertiesAttributeVariants = new JsonArray();
+    properties.add(&quot;attributeVariants&quot;, propertiesAttributeVariants);
+    articleNode.add(&quot;properties&quot;, properties);
+
+    ArrayList articles = vars.getObject(&quot;articles&quot;);
+    if(articles == null) {
+    	    articles = new ArrayList();
+    }
+    articles.add(articleNode);
+    vars.putObject(&quot;articles&quot;, articles);
+</stringProp>
+              </BeanShellPostProcessor>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler - combine article and variant json" enabled="true">
+            <stringProp name="BeanShellSampler.query">    import com.eclipsesource.json.*;
+    
+    JsonObject importJson  = new JsonObject();
+    JsonArray contentNode  = new JsonArray();
+    JsonArray embeddedNode = new JsonArray();
+
+    ArrayList articles         = vars.getObject(&quot;articles&quot;);
+    ArrayList embeddedVariants = props.get(&quot;embeddedVariantsData&quot;);
+    String articleId           = &quot;&quot;;
+    String embdId              = &quot;&quot;;    
+    JsonObject articleObject;
+    JsonObject embdObject;
+    
+    for(int indexArticle = 0; indexArticle &lt; articles.size(); indexArticle++) {
+        articleObject = articles.get(indexArticle);
+        contentNode.add(articleObject);
+        articleId  = articleObject.get(&quot;id&quot;).asString();
+        for(int indexEmbd = 0; indexEmbd &lt; embeddedVariants.size(); indexEmbd++) {
+            embdObject = new JsonObject(embeddedVariants.get(indexEmbd));
+            embdId     = embdObject.get(&quot;variantId&quot;).asString();
+            embdId     = articleId + &quot;_&quot; + embdId;
+            embdObject.set(&quot;variantId&quot;, embdId);
+            embdObject.set(&quot;contentId&quot;, articleId);
+            embeddedNode.add(embdObject);
+        }
+    }
+    importJson.add(&quot;content&quot;, contentNode);
+    importJson.add(&quot;embeddedVariants&quot;, embeddedNode);
+    vars.put(&quot;importJsonJMS&quot;, importJson.toString());</stringProp>
+            <stringProp name="BeanShellSampler.filename"></stringProp>
+            <stringProp name="BeanShellSampler.parameters"></stringProp>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree/>
+        </hashTree>
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config - Read Queue Names" enabled="true">
+          <stringProp name="delimiter">,</stringProp>
+          <stringProp name="fileEncoding">UTF-8</stringProp>
+          <stringProp name="filename">${queueFilePath}</stringProp>
+          <boolProp name="quotedData">false</boolProp>
+          <boolProp name="recycle">true</boolProp>
+          <stringProp name="shareMode">shareMode.all</stringProp>
+          <boolProp name="stopThread">false</boolProp>
+          <stringProp name="variableNames">queueName,acknowledgeQueueName</stringProp>
+        </CSVDataSet>
+        <hashTree/>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler" enabled="true">
+          <stringProp name="scriptLanguage">beanshell</stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="cacheKey"></stringProp>
+          <stringProp name="script">
+    props.put(&quot;queue&quot;, vars.get(&quot;queueName&quot;));</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+        <JMSSampler guiclass="JMSSamplerGui" testclass="JMSSampler" testname="JMS Point-to-Point - Send Json to Queue" enabled="true">
+          <stringProp name="JMSSampler.queueconnectionfactory">ConnectionFactory</stringProp>
+          <stringProp name="JMSSampler.SendQueue">Q.REQ</stringProp>
+          <stringProp name="JMSSampler.ReceiveQueue"></stringProp>
+          <boolProp name="JMSSampler.isFireAndForget">true</boolProp>
+          <boolProp name="JMSSampler.isNonPersistent">false</boolProp>
+          <boolProp name="JMSSampler.useReqMsgIdAsCorrelId">false</boolProp>
+          <stringProp name="JMSSampler.timeout">20000</stringProp>
+          <stringProp name="HTTPSamper.xml_data">${importJsonJMS}</stringProp>
+          <stringProp name="JMSSampler.initialContextFactory">org.apache.activemq.jndi.ActiveMQInitialContextFactory</stringProp>
+          <stringProp name="JMSSampler.contextProviderUrl">${ActiveMqUrl}</stringProp>
+          <elementProp name="JMSSampler.jndiProperties" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="queue.Q.REQ" elementType="Argument">
+                <stringProp name="Argument.name">queue.Q.REQ</stringProp>
+                <stringProp name="Argument.value">${__P(queue,)}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <elementProp name="arguments" elementType="JMSProperties">
+            <collectionProp name="JMSProperties.properties"/>
+          </elementProp>
+        </JMSSampler>
+        <hashTree>
+          <BeanShellPreProcessor guiclass="TestBeanGUI" testclass="BeanShellPreProcessor" testname="BeanShell PreProcessor" enabled="false">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">props.put(&quot;queue&quot;, vars.get(&quot;queueName&quot;));</stringProp>
+          </BeanShellPreProcessor>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group - Check status" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1540374761000</longProp>
+        <longProp name="ThreadGroup.end_time">1540374761000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler - Connect to ActiveMq" enabled="true">
+          <stringProp name="scriptLanguage">beanshell</stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="cacheKey"></stringProp>
+          <stringProp name="script">    import automation_utility.*;  
+    try{
+        ActiveMqConsumer consumer = new ActiveMqConsumer(&quot;${ActiveMqUrl}&quot;);
+        consumer.initiateConnection();
+        vars.putObject(&quot;jmsQueueConnection&quot;, consumer);
+    }
+    catch(Exception e)
+    {
+        log.error(&quot;JMSQueue1 =&gt; &quot; + e.getMessage());	
+    }
+
+    vars.put(&quot;totalSuccessCount&quot;, &quot;0&quot;);
+    vars.put(&quot;totalFailureCount&quot;, &quot;0&quot;);
+    </stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+        <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller - For Each Queue" enabled="true">
+          <boolProp name="LoopController.continue_forever">true</boolProp>
+          <stringProp name="LoopController.loops">${batchCount}</stringProp>
+        </LoopController>
+        <hashTree>
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config - Read Queue Names" enabled="true">
+            <stringProp name="filename">${queueFilePath}</stringProp>
+            <stringProp name="fileEncoding">UTF-8</stringProp>
+            <stringProp name="variableNames">queueName,acknowledgeQueueName</stringProp>
+            <stringProp name="delimiter">,</stringProp>
+            <boolProp name="quotedData">false</boolProp>
+            <boolProp name="recycle">true</boolProp>
+            <boolProp name="stopThread">false</boolProp>
+            <stringProp name="shareMode">shareMode.all</stringProp>
+          </CSVDataSet>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler - Receive Message from Queue" enabled="true">
+            <stringProp name="scriptLanguage">beanshell</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey"></stringProp>
+            <stringProp name="script">    import com.eclipsesource.json.*;
+    import automation_utility.*;  
+        
+    
+    
+    String jmsAckMessage = null;
+    int success = 0, failure = 0; 
+    try{
+        ActiveMqConsumer consumer = vars.getObject(&quot;jmsQueueConnection&quot;);
+      
+        jmsAckMessage             = consumer.getMessageFromQueue(&quot;${acknowledgeQueueName}&quot;);
+       //   log.info(&quot;888888888888&quot;+jmsAckMessage);
+
+        if(jmsAckMessage != null) {
+        	JsonObject jmsAckJsonObject = Json.parse(jmsAckMessage).asObject();
+        	JsonObject summaryObject    = jmsAckJsonObject.get(&quot;summary&quot;);
+		success                     = Integer.parseInt(vars.get(&quot;totalSuccessCount&quot;)) + Integer.parseInt(summaryObject.get(&quot;successCount&quot;).asString());     	
+      	failure                     = Integer.parseInt(vars.get(&quot;totalFailureCount&quot;)) + Integer.parseInt(summaryObject.get(&quot;failureCount&quot;).asString());     	
+        }
+    }
+    catch(Exception e)
+    {
+        log.error(&quot;JMSQueue2 =&gt; &quot; + e.getMessage());	
+    }
+
+    vars.put(&quot;totalSuccessCount&quot;, success.toString());
+    vars.put(&quot;totalFailureCount&quot;, failure.toString());</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler - Close connection" enabled="true">
+          <stringProp name="scriptLanguage">beanshell</stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="cacheKey"></stringProp>
+          <stringProp name="script">    import automation_utility.*;  
+    
+    try {
+         ActiveMqConsumer consumer = vars.getObject(&quot;jmsQueueConnection&quot;);
+         consumer.closeConnection();
+    }
+    catch(Exception e)
+    {
+        log.error(&quot;JMSQueue3 =&gt; &quot; + e.getMessage());	
+    }
+    int variantCount = 3;//props.get(&quot;variantCount&quot;);
+    int totalBatchCount = ((${batchCapacity} * variantCount) + ${batchCapacity}) * ${batchCount};
+    log.info(&quot;*************&quot;+totalBatchCount);
+    if((vars.get(&quot;totalFailureCount&quot;).equals(&quot;0&quot;) &amp;&amp; totalBatchCount == Integer.parseInt(vars.get(&quot;totalSuccessCount&quot;)))) {
+        log.info(&quot;*************** Import Completed ***************&quot;);
+    } else {
+    	   log.info(&quot;############# Import Not successful #############&quot;);
+    }
+</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
+      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
