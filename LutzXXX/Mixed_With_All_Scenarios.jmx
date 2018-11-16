@@ -1,0 +1,2353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="2.9" jmeter="3.0 r1743807">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Mixed_With_All_Scenarios" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Pre-loaded Data for Run Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1520916000000</longProp>
+        <longProp name="ThreadGroup.end_time">1520916000000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller (Load Data of Attribute and Tags for Save Article)" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller (for attribute)" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="LoopController.loops">${saveArticle_NoOfAttributes}</stringProp>
+          </LoopController>
+          <hashTree>
+            <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
+              <stringProp name="filename">${filesPath}save-ArticleAttributesData${extendedFileName}.csv</stringProp>
+              <stringProp name="fileEncoding">UTF-8</stringProp>
+              <stringProp name="variableNames">randomattrId,attributeIdCreate,attributeValue</stringProp>
+              <stringProp name="delimiter">,</stringProp>
+              <boolProp name="quotedData">false</boolProp>
+              <boolProp name="recycle">true</boolProp>
+              <boolProp name="stopThread">false</boolProp>
+              <stringProp name="shareMode">shareMode.all</stringProp>
+            </CSVDataSet>
+            <hashTree/>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler - Attribute Save Article" enabled="true">
+              <stringProp name="BeanShellSampler.query">import com.eclipsesource.json.*;
+
+JsonObject attrGenData = new JsonObject();
+  
+  attrGenData.add(&quot;attributeid&quot;, vars.get(&quot;attributeIdCreate&quot;));
+  attrGenData.add(&quot;value&quot;, vars.get(&quot;attributeValue&quot;));
+  
+String responseData = props.get(&quot;save_article_generatedDataAtttr&quot;);
+
+if(responseData == null)
+{
+  JsonObject attrGenDataWithKey = new JsonObject();
+  attrGenDataWithKey.add(vars.get(&quot;randomattrId&quot;),attrGenData);
+  
+  props.put(&quot;save_article_generatedDataAtttr&quot;, attrGenDataWithKey.toString());
+}
+else
+{
+  JsonObject responseInfoObject =  Json.parse(responseData).asObject();
+  responseInfoObject.add(vars.get(&quot;randomattrId&quot;),attrGenData);
+  props.put(&quot;save_article_generatedDataAtttr&quot;, responseInfoObject.toString());
+}</stringProp>
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
+            <hashTree/>
+          </hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller (for tags)" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="LoopController.loops">${saveArticle_NoOfTags}</stringProp>
+          </LoopController>
+          <hashTree>
+            <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
+              <stringProp name="filename">${filesPath}save-ArticleTagsData${extendedFileName}.csv</stringProp>
+              <stringProp name="fileEncoding">UTF-8</stringProp>
+              <stringProp name="variableNames">randomtagId,tagIdCreate,subtagId,tagrelevance</stringProp>
+              <stringProp name="delimiter">,</stringProp>
+              <boolProp name="quotedData">false</boolProp>
+              <boolProp name="recycle">true</boolProp>
+              <boolProp name="stopThread">false</boolProp>
+              <stringProp name="shareMode">shareMode.all</stringProp>
+            </CSVDataSet>
+            <hashTree/>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler - Tag Save Article" enabled="true">
+              <stringProp name="BeanShellSampler.query">import com.eclipsesource.json.*;
+
+JsonObject attrGenData = new JsonObject();
+  
+  attrGenData.add(&quot;tagId&quot;, vars.get(&quot;tagIdCreate&quot;));
+  attrGenData.add(&quot;subtagId&quot;, vars.get(&quot;subtagId&quot;));
+  attrGenData.add(&quot;tagrelevance&quot;, vars.get(&quot;tagrelevance&quot;));
+  
+String responseData = props.get(&quot;save_article_generatedDataTag&quot;);
+
+if(responseData == null)
+{
+  JsonObject attrGenDataWithKey = new JsonObject();
+  attrGenDataWithKey.add(vars.get(&quot;randomtagId&quot;),attrGenData);
+  
+  props.put(&quot;save_article_generatedDataTag&quot;, attrGenDataWithKey.toString());
+}
+else
+{
+  JsonObject responseInfoObject =  Json.parse(responseData).asObject();
+  responseInfoObject.add(vars.get(&quot;randomtagId&quot;),attrGenData);
+  props.put(&quot;save_article_generatedDataTag&quot;, responseInfoObject.toString());
+}</stringProp>
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller (Load Data of Attribute and Tags for Paramteric Search 2)" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">true</boolProp>
+        </TransactionController>
+        <hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller (for attribute)" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="LoopController.loops">${parametricSearch2_NoOfAttributes}</stringProp>
+          </LoopController>
+          <hashTree>
+            <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Attributes-CSV Data Set Config" enabled="true">
+              <stringProp name="delimiter">,</stringProp>
+              <stringProp name="fileEncoding">UTF-8</stringProp>
+              <stringProp name="filename">${filesPath}parametricSearch_2_Attributes${extendedFileName}.csv</stringProp>
+              <boolProp name="quotedData">false</boolProp>
+              <boolProp name="recycle">true</boolProp>
+              <stringProp name="shareMode">shareMode.all</stringProp>
+              <boolProp name="stopThread">false</boolProp>
+              <stringProp name="variableNames">P_rand_A_Id,P_A_id1,P_A_type,P_A_Mtype,P_A_to,P_A_from,P_A_value,P_A_MbaseType</stringProp>
+            </CSVDataSet>
+            <hashTree/>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler - Attribute ParametricSearch 2" enabled="true">
+              <stringProp name="BeanShellSampler.query">import com.eclipsesource.json.*;
+
+JsonObject attrGenData = new JsonObject();
+  attrGenData.add(&quot;A_id&quot;, vars.get(&quot;P_A_id1&quot;));
+  attrGenData.add(&quot;A_type&quot;, vars.get(&quot;P_A_type&quot;));
+  attrGenData.add(&quot;A_mtype&quot;, vars.get(&quot;P_A_Mtype&quot;));
+  attrGenData.add(&quot;A_from&quot;, vars.get(&quot;P_A_from&quot;));
+  attrGenData.add(&quot;A_to&quot;, vars.get(&quot;P_A_to&quot;));
+  attrGenData.add(&quot;A_value&quot;, vars.get(&quot;P_A_value&quot;));
+  attrGenData.add(&quot;A_mBaseType&quot;, vars.get(&quot;P_A_MbaseType&quot;));
+
+String responseData = props.get(&quot;parametricSearch2_generatedDataAtttr&quot;);
+
+if(responseData == null)
+{
+  JsonObject attrGenDataWithKey = new JsonObject();
+  attrGenDataWithKey.add(vars.get(&quot;P_rand_A_Id&quot;),attrGenData);
+  props.put(&quot;parametricSearch2_generatedDataAtttr&quot;, attrGenDataWithKey.toString());
+}
+else
+{
+
+  JsonObject responseInfoObject =  Json.parse(responseData).asObject();
+  responseInfoObject.add(vars.get(&quot;P_rand_A_Id&quot;),attrGenData);
+  props.put(&quot;parametricSearch2_generatedDataAtttr&quot;, responseInfoObject.toString());
+}</stringProp>
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
+            <hashTree/>
+          </hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller (for tags)" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="LoopController.loops">${parametricSearch2_NoOfTags}</stringProp>
+          </LoopController>
+          <hashTree>
+            <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Tags-CSV Data Set Config" enabled="true">
+              <stringProp name="filename">${filesPath}parametricSearch_2_Tag${extendedFileName}.csv</stringProp>
+              <stringProp name="fileEncoding">UTF-8</stringProp>
+              <stringProp name="variableNames">P_rand_T_Id,P_T_id1,P_T_type,P_T_SubTagId,P_T_Mtype,P_T_from,P_T_to,P_T_MbaseType</stringProp>
+              <stringProp name="delimiter">,</stringProp>
+              <boolProp name="quotedData">false</boolProp>
+              <boolProp name="recycle">true</boolProp>
+              <boolProp name="stopThread">false</boolProp>
+              <stringProp name="shareMode">shareMode.all</stringProp>
+            </CSVDataSet>
+            <hashTree/>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler - Tag ParametricSearch 2" enabled="true">
+              <stringProp name="BeanShellSampler.query">import com.eclipsesource.json.*;
+
+JsonObject attrGenData = new JsonObject();
+  attrGenData.add(&quot;T_id&quot;, vars.get(&quot;P_T_id1&quot;));
+  attrGenData.add(&quot;T_type&quot;, vars.get(&quot;P_T_type&quot;));
+  attrGenData.add(&quot;T_mtype&quot;, vars.get(&quot;P_T_Mtype&quot;));
+  attrGenData.add(&quot;T_SubTagId&quot;, vars.get(&quot;P_T_SubTagId&quot;));
+  attrGenData.add(&quot;T_from&quot;, vars.get(&quot;P_T_from&quot;));
+  attrGenData.add(&quot;T_to&quot;, vars.get(&quot;P_T_to&quot;));
+  attrGenData.add(&quot;T_mBaseType&quot;, vars.get(&quot;P_T_MbaseType&quot;));
+
+String responseData = props.get(&quot;parametricSearch2_generatedDataTag&quot;);
+
+if(responseData == null)
+{
+  JsonObject attrGenDataWithKey = new JsonObject();
+  attrGenDataWithKey.add(vars.get(&quot;P_rand_T_Id&quot;),attrGenData); 
+  props.put(&quot;parametricSearch2_generatedDataTag&quot;, attrGenDataWithKey.toString());
+}
+else
+{
+  JsonObject responseInfoObject =  Json.parse(responseData).asObject();
+  responseInfoObject.add(vars.get(&quot;P_rand_T_Id&quot;),attrGenData);
+  props.put(&quot;parametricSearch2_generatedDataTag&quot;, responseInfoObject.toString());
+}</stringProp>
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller (Load Data of Attribute and Tags for Paramteric Search 3)" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">true</boolProp>
+        </TransactionController>
+        <hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller (for attribute)" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="LoopController.loops">${parametricSearch3_NoOfAttributes}</stringProp>
+          </LoopController>
+          <hashTree>
+            <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Attributes-CSV Data Set Config" enabled="true">
+              <stringProp name="delimiter">,</stringProp>
+              <stringProp name="fileEncoding">UTF-8</stringProp>
+              <stringProp name="filename">${filesPath}parametricSearch_3_Attributes${extendedFileName}.csv</stringProp>
+              <boolProp name="quotedData">false</boolProp>
+              <boolProp name="recycle">true</boolProp>
+              <stringProp name="shareMode">shareMode.all</stringProp>
+              <boolProp name="stopThread">false</boolProp>
+              <stringProp name="variableNames">P_rand_A_Id,P_A_id1,P_A_type,P_A_Mtype,P_A_to,P_A_from,P_A_value,P_A_MbaseType</stringProp>
+            </CSVDataSet>
+            <hashTree/>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler  - Attribute ParametricSearch 3" enabled="true">
+              <stringProp name="BeanShellSampler.query">import com.eclipsesource.json.*;
+
+JsonObject attrGenData = new JsonObject();
+  attrGenData.add(&quot;A_id&quot;, vars.get(&quot;P_A_id1&quot;));
+  attrGenData.add(&quot;A_type&quot;, vars.get(&quot;P_A_type&quot;));
+  attrGenData.add(&quot;A_mtype&quot;, vars.get(&quot;P_A_Mtype&quot;));
+  attrGenData.add(&quot;A_from&quot;, vars.get(&quot;P_A_from&quot;));
+  attrGenData.add(&quot;A_to&quot;, vars.get(&quot;P_A_to&quot;));
+  attrGenData.add(&quot;A_value&quot;, vars.get(&quot;P_A_value&quot;));
+  attrGenData.add(&quot;A_mBaseType&quot;, vars.get(&quot;P_A_MbaseType&quot;));
+
+String responseData = props.get(&quot;parametricSearch3_generatedDataAtttr&quot;);
+
+if(responseData == null)
+{
+  JsonObject attrGenDataWithKey = new JsonObject();
+  attrGenDataWithKey.add(vars.get(&quot;P_rand_A_Id&quot;),attrGenData);
+  props.put(&quot;parametricSearch3_generatedDataAtttr&quot;, attrGenDataWithKey.toString());
+}
+else
+{
+
+  JsonObject responseInfoObject =  Json.parse(responseData).asObject();
+  responseInfoObject.add(vars.get(&quot;P_rand_A_Id&quot;),attrGenData);
+  props.put(&quot;parametricSearch3_generatedDataAtttr&quot;, responseInfoObject.toString());
+}</stringProp>
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
+            <hashTree/>
+          </hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller (for tags)" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="LoopController.loops">${parametricSearch3_NoOfTags}</stringProp>
+          </LoopController>
+          <hashTree>
+            <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Tags-CSV Data Set Config" enabled="true">
+              <stringProp name="filename">${filesPath}parametricSearch_3_Tag${extendedFileName}.csv</stringProp>
+              <stringProp name="fileEncoding">UTF-8</stringProp>
+              <stringProp name="variableNames">P_rand_T_Id,P_T_id1,P_T_type,P_T_SubTagId,P_T_Mtype,P_T_from,P_T_to,P_T_MbaseType</stringProp>
+              <stringProp name="delimiter">,</stringProp>
+              <boolProp name="quotedData">false</boolProp>
+              <boolProp name="recycle">true</boolProp>
+              <boolProp name="stopThread">false</boolProp>
+              <stringProp name="shareMode">shareMode.all</stringProp>
+            </CSVDataSet>
+            <hashTree/>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler  - Tag ParametricSearch 3" enabled="true">
+              <stringProp name="BeanShellSampler.query">import com.eclipsesource.json.*;
+
+JsonObject attrGenData = new JsonObject();
+  attrGenData.add(&quot;T_id&quot;, vars.get(&quot;P_T_id1&quot;));
+  attrGenData.add(&quot;T_type&quot;, vars.get(&quot;P_T_type&quot;));
+  attrGenData.add(&quot;T_mtype&quot;, vars.get(&quot;P_T_Mtype&quot;));
+  attrGenData.add(&quot;T_SubTagId&quot;, vars.get(&quot;P_T_SubTagId&quot;));
+  attrGenData.add(&quot;T_from&quot;, vars.get(&quot;P_T_from&quot;));
+  attrGenData.add(&quot;T_to&quot;, vars.get(&quot;P_T_to&quot;));
+  attrGenData.add(&quot;T_mBaseType&quot;, vars.get(&quot;P_T_MbaseType&quot;));
+
+String responseData = props.get(&quot;parametricSearch3_generatedDataTag&quot;);
+
+if(responseData == null)
+{
+  JsonObject attrGenDataWithKey = new JsonObject();
+  attrGenDataWithKey.add(vars.get(&quot;P_rand_T_Id&quot;),attrGenData); 
+  props.put(&quot;parametricSearch3_generatedDataTag&quot;, attrGenDataWithKey.toString());
+}
+else
+{
+  JsonObject responseInfoObject =  Json.parse(responseData).asObject();
+  responseInfoObject.add(vars.get(&quot;P_rand_T_Id&quot;),attrGenData);
+  props.put(&quot;parametricSearch3_generatedDataTag&quot;, responseInfoObject.toString());
+}</stringProp>
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Process Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">${loopCount}</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${noOfUsers}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${ramupTime}</stringProp>
+        <longProp name="ThreadGroup.start_time">1473924202000</longProp>
+        <longProp name="ThreadGroup.end_time">1473924202000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
+          <collectionProp name="CookieManager.cookies"/>
+          <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+          <stringProp name="CookieManager.policy">standard</stringProp>
+          <stringProp name="CookieManager.implementation">org.apache.jmeter.protocol.http.control.HC4CookieHandler</stringProp>
+        </CookieManager>
+        <hashTree/>
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config For Credentials" enabled="true">
+          <stringProp name="filename">${filesPath}CS_Cred${extendedFileName}.csv</stringProp>
+          <stringProp name="fileEncoding">UTF-8</stringProp>
+          <stringProp name="variableNames">username,password</stringProp>
+          <stringProp name="delimiter">,</stringProp>
+          <boolProp name="quotedData">false</boolProp>
+          <boolProp name="recycle">true</boolProp>
+          <boolProp name="stopThread">true</boolProp>
+          <stringProp name="shareMode">shareMode.all</stringProp>
+        </CSVDataSet>
+        <hashTree/>
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set - For Scenario Number" enabled="true">
+          <stringProp name="filename">${filesPath}CS_ForCase${extendedFileName}.csv</stringProp>
+          <stringProp name="fileEncoding">UTF-8</stringProp>
+          <stringProp name="variableNames">caseNumber</stringProp>
+          <stringProp name="delimiter">,</stringProp>
+          <boolProp name="quotedData">false</boolProp>
+          <boolProp name="recycle">true</boolProp>
+          <boolProp name="stopThread">true</boolProp>
+          <stringProp name="shareMode">shareMode.all</stringProp>
+        </CSVDataSet>
+        <hashTree/>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Login Controller" enabled="true"/>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/REST/login" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="userName" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.name">userName</stringProp>
+                  <stringProp name="Argument.value">${username}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+                <elementProp name="password" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.name">password</stringProp>
+                  <stringProp name="Argument.value">${password}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${hostName}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">${encodingType}</stringProp>
+            <stringProp name="HTTPSampler.path">/${hostAddress}/login</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.monitor">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="TestPlan.comments">Detected the start of a redirect chain</stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="Referer" elementType="Header">
+                  <stringProp name="Header.name">Referer</stringProp>
+                  <stringProp name="Header.value">http://localhost:8090/REST/?login=51god5zmj7izcidg1ocyjg1h</stringProp>
+                </elementProp>
+                <elementProp name="Accept-Language" elementType="Header">
+                  <stringProp name="Header.name">Accept-Language</stringProp>
+                  <stringProp name="Header.value">en-US,en;q=0.5</stringProp>
+                </elementProp>
+                <elementProp name="X-Requested-With" elementType="Header">
+                  <stringProp name="Header.name">X-Requested-With</stringProp>
+                  <stringProp name="Header.value">XMLHttpRequest</stringProp>
+                </elementProp>
+                <elementProp name="Content-Type" elementType="Header">
+                  <stringProp name="Header.name">Content-Type</stringProp>
+                  <stringProp name="Header.value">application/x-www-form-urlencoded</stringProp>
+                </elementProp>
+                <elementProp name="userId" elementType="Header">
+                  <stringProp name="Header.name">userId</stringProp>
+                  <stringProp name="Header.value">730e576b-9203-4f58-a0d6-443596f656f7</stringProp>
+                </elementProp>
+                <elementProp name="Accept-Encoding" elementType="Header">
+                  <stringProp name="Header.name">Accept-Encoding</stringProp>
+                  <stringProp name="Header.value">gzip, deflate</stringProp>
+                </elementProp>
+                <elementProp name="User-Agent" elementType="Header">
+                  <stringProp name="Header.name">User-Agent</stringProp>
+                  <stringProp name="Header.value">Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:45.0) Gecko/20100101 Firefox/45.0</stringProp>
+                </elementProp>
+                <elementProp name="Accept" elementType="Header">
+                  <stringProp name="Header.name">Accept</stringProp>
+                  <stringProp name="Header.value">application/json, text/javascript, */*; q=0.01</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/REST/login" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${hostName}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">${encodingType}</stringProp>
+            <stringProp name="HTTPSampler.path">/${hostAddress}/login</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.monitor">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="TestPlan.comments">Detected a redirect from the previous sample</stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="Referer" elementType="Header">
+                  <stringProp name="Header.name">Referer</stringProp>
+                  <stringProp name="Header.value">http://localhost:8090/REST/?login=51god5zmj7izcidg1ocyjg1h</stringProp>
+                </elementProp>
+                <elementProp name="Accept-Language" elementType="Header">
+                  <stringProp name="Header.name">Accept-Language</stringProp>
+                  <stringProp name="Header.value">en-US,en;q=0.5</stringProp>
+                </elementProp>
+                <elementProp name="X-Requested-With" elementType="Header">
+                  <stringProp name="Header.name">X-Requested-With</stringProp>
+                  <stringProp name="Header.value">XMLHttpRequest</stringProp>
+                </elementProp>
+                <elementProp name="Content-Type" elementType="Header">
+                  <stringProp name="Header.name">Content-Type</stringProp>
+                  <stringProp name="Header.value">application/x-www-form-urlencoded</stringProp>
+                </elementProp>
+                <elementProp name="userId" elementType="Header">
+                  <stringProp name="Header.name">userId</stringProp>
+                  <stringProp name="Header.value">730e576b-9203-4f58-a0d6-443596f656f7</stringProp>
+                </elementProp>
+                <elementProp name="Accept-Encoding" elementType="Header">
+                  <stringProp name="Header.name">Accept-Encoding</stringProp>
+                  <stringProp name="Header.value">gzip, deflate</stringProp>
+                </elementProp>
+                <elementProp name="User-Agent" elementType="Header">
+                  <stringProp name="Header.name">User-Agent</stringProp>
+                  <stringProp name="Header.value">Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:45.0) Gecko/20100101 Firefox/45.0</stringProp>
+                </elementProp>
+                <elementProp name="Accept" elementType="Header">
+                  <stringProp name="Header.name">Accept</stringProp>
+                  <stringProp name="Header.value">application/json, text/javascript, */*; q=0.01</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <SwitchController guiclass="SwitchControllerGui" testclass="SwitchController" testname="Switch Controller" enabled="true">
+          <stringProp name="SwitchController.value">${caseNumber}</stringProp>
+        </SwitchController>
+        <hashTree>
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller - Invalid Inuput" enabled="true">
+            <boolProp name="TransactionController.includeTimers">false</boolProp>
+            <boolProp name="TransactionController.parent">false</boolProp>
+          </TransactionController>
+          <hashTree>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler" enabled="true">
+              <stringProp name="BeanShellSampler.query">log.info(&quot;Invalid input for usecase&quot;);</stringProp>
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
+            <hashTree/>
+          </hashTree>
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller - Create Article (case 1)" enabled="true">
+            <boolProp name="TransactionController.includeTimers">false</boolProp>
+            <boolProp name="TransactionController.parent">false</boolProp>
+          </TransactionController>
+          <hashTree>
+            <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config (KlassIds, product Id)" enabled="true">
+              <stringProp name="filename">${filesPath}create-ArticleData${extendedFileName}.csv</stringProp>
+              <stringProp name="fileEncoding">UTF-8</stringProp>
+              <stringProp name="variableNames">articleKlassId,articleInstanceId</stringProp>
+              <stringProp name="delimiter">,</stringProp>
+              <boolProp name="quotedData">false</boolProp>
+              <boolProp name="recycle">true</boolProp>
+              <boolProp name="stopThread">true</boolProp>
+              <stringProp name="shareMode">shareMode.all</stringProp>
+            </CSVDataSet>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create Product" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&quot;parentId&quot;:-1,&quot;type&quot;:${articleKlassId}}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${hostName}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding">${encodingType}</stringProp>
+              <stringProp name="HTTPSampler.path">/${hostAddress}/runtime/${instanceModule}?lang=${lang}&amp;lang=${lang}&amp;organizationId=${organizationId}&amp;physicalCatalogId=${physicalCatalogId}&amp;endpointId=${endpointId}&amp;endpointType=${endpointType}&amp;sessionId=3d5ad1a6-4624-4e59-8aa7-1116a5280435&amp;requestId=3af69ad6-fd15-4779-a432-6906cb9e046e</stringProp>
+              <stringProp name="HTTPSampler.method">PUT</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="Referer" elementType="Header">
+                    <stringProp name="Header.name">Referer</stringProp>
+                    <stringProp name="Header.value">http://localhost:8090/REST/?login=zf4gh9qxs7n11wxrp9nh0djbs</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Language" elementType="Header">
+                    <stringProp name="Header.name">Accept-Language</stringProp>
+                    <stringProp name="Header.value">en-US,en;q=0.5</stringProp>
+                  </elementProp>
+                  <elementProp name="X-Requested-With" elementType="Header">
+                    <stringProp name="Header.name">X-Requested-With</stringProp>
+                    <stringProp name="Header.value">XMLHttpRequest</stringProp>
+                  </elementProp>
+                  <elementProp name="Content-Type" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json; charset=utf-8</stringProp>
+                  </elementProp>
+                  <elementProp name="userId" elementType="Header">
+                    <stringProp name="Header.name">userId</stringProp>
+                    <stringProp name="Header.value">730e576b-9203-4f58-a0d6-443596f656f7</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Encoding" elementType="Header">
+                    <stringProp name="Header.name">Accept-Encoding</stringProp>
+                    <stringProp name="Header.value">gzip, deflate</stringProp>
+                  </elementProp>
+                  <elementProp name="User-Agent" elementType="Header">
+                    <stringProp name="Header.name">User-Agent</stringProp>
+                    <stringProp name="Header.value">Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:45.0) Gecko/20100101 Firefox/45.0</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json, text/javascript, */*; q=0.01</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller - Get Article (case 2)" enabled="true">
+            <boolProp name="TransactionController.includeTimers">false</boolProp>
+            <boolProp name="TransactionController.parent">false</boolProp>
+          </TransactionController>
+          <hashTree>
+            <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config (articleId)" enabled="true">
+              <stringProp name="filename">${filesPath}get-ArticleData${extendedFileName}.csv</stringProp>
+              <stringProp name="fileEncoding">UTF-8</stringProp>
+              <stringProp name="variableNames">articleInstanceId</stringProp>
+              <stringProp name="delimiter">,</stringProp>
+              <boolProp name="quotedData">false</boolProp>
+              <boolProp name="recycle">true</boolProp>
+              <boolProp name="stopThread">false</boolProp>
+              <stringProp name="shareMode">shareMode.all</stringProp>
+            </CSVDataSet>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Article" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&quot;attributes&quot;:[],&quot;tags&quot;:[],&quot;allSearch&quot;:&quot;&quot;,&quot;size&quot;:20,&quot;from&quot;:0,&quot;sortField&quot;:&quot;createdOn&quot;,&quot;sortOrder&quot;:&quot;desc&quot;,&quot;getFolders&quot;:true,&quot;getLeaves&quot;:true,&quot;isAttribute&quot;:false,&quot;isNumeric&quot;:false,&quot;selectedRoles&quot;:[],&quot;selectedTypes&quot;:[],&quot;isRed&quot;:true,&quot;isOrange&quot;:true,&quot;isYellow&quot;:true,&quot;isGreen&quot;:true,&quot;templateId&quot;:null,&quot;typeId&quot;:null,&quot;tabId&quot;:null,&quot;tabType&quot;:&quot;com.cs.config.interactor.entity.template.CustomTemplateTab&quot;,&quot;childContextId&quot;:null,&quot;selectedTimeRange&quot;:{&quot;endTime&quot;:null,&quot;startTime&quot;:null}}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${hostName}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding">${encodingType}</stringProp>
+              <stringProp name="HTTPSampler.path">/${hostAddress}/runtime/klassinstances/customtab/${articleInstanceId}?isLoadMore=false&amp;getAll=true&amp;lang=${lang}&amp;sessionId=eba2249c-741c-4577-990e-7a775aea0f58&amp;requestId=264bd1af-4d6d-4452-8ec6-ae2ccaa3df17&amp;lang=${lang}&amp;organizationId=${organizationId}&amp;physicalCatalogId=${physicalCatalogId}&amp;endpointId=${endpointId}&amp;endpointType=${endpointType}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="Referer" elementType="Header">
+                    <stringProp name="Header.name">Referer</stringProp>
+                    <stringProp name="Header.value">http://localhost:8090/REST/?login=zf4gh9qxs7n11wxrp9nh0djbs</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Language" elementType="Header">
+                    <stringProp name="Header.name">Accept-Language</stringProp>
+                    <stringProp name="Header.value">en-US,en;q=0.5</stringProp>
+                  </elementProp>
+                  <elementProp name="X-Requested-With" elementType="Header">
+                    <stringProp name="Header.name">X-Requested-With</stringProp>
+                    <stringProp name="Header.value">XMLHttpRequest</stringProp>
+                  </elementProp>
+                  <elementProp name="Content-Type" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json; charset=utf-8</stringProp>
+                  </elementProp>
+                  <elementProp name="userId" elementType="Header">
+                    <stringProp name="Header.name">userId</stringProp>
+                    <stringProp name="Header.value">730e576b-9203-4f58-a0d6-443596f656f7</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Encoding" elementType="Header">
+                    <stringProp name="Header.name">Accept-Encoding</stringProp>
+                    <stringProp name="Header.value">gzip, deflate</stringProp>
+                  </elementProp>
+                  <elementProp name="User-Agent" elementType="Header">
+                    <stringProp name="Header.name">User-Agent</stringProp>
+                    <stringProp name="Header.value">Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:45.0) Gecko/20100101 Firefox/45.0</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json, text/javascript, */*; q=0.01</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller - Create Asset (case 3)" enabled="true">
+            <boolProp name="TransactionController.includeTimers">false</boolProp>
+            <boolProp name="TransactionController.parent">false</boolProp>
+          </TransactionController>
+          <hashTree>
+            <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config (KlassIds, asset Id)" enabled="true">
+              <stringProp name="filename">${filesPath}create-AssetData${extendedFileName}.csv</stringProp>
+              <stringProp name="fileEncoding">UTF-8</stringProp>
+              <stringProp name="variableNames">assetKlassId,assetInstanceId</stringProp>
+              <stringProp name="delimiter">,</stringProp>
+              <boolProp name="quotedData">false</boolProp>
+              <boolProp name="recycle">true</boolProp>
+              <boolProp name="stopThread">true</boolProp>
+              <stringProp name="shareMode">shareMode.all</stringProp>
+            </CSVDataSet>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create Asset" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&quot;parentId&quot;:-1,&quot;type&quot;:${assetKlassId}}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${hostName}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding">${encodingType}</stringProp>
+              <stringProp name="HTTPSampler.path">/${hostAddress}/runtime/assetinstances?lang=${lang}&amp;lang=${lang}&amp;organizationId=${organizationId}&amp;physicalCatalogId=${physicalCatalogId}&amp;endpointId=${endpointId}&amp;endpointType=${endpointType}&amp;sessionId=3d5ad1a6-4624-4e59-8aa7-1116a5280435&amp;requestId=3af69ad6-fd15-4779-a432-6906cb9e046e</stringProp>
+              <stringProp name="HTTPSampler.method">PUT</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="Referer" elementType="Header">
+                    <stringProp name="Header.name">Referer</stringProp>
+                    <stringProp name="Header.value">http://localhost:8090/REST/?login=zf4gh9qxs7n11wxrp9nh0djbs</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Language" elementType="Header">
+                    <stringProp name="Header.name">Accept-Language</stringProp>
+                    <stringProp name="Header.value">en-US,en;q=0.5</stringProp>
+                  </elementProp>
+                  <elementProp name="X-Requested-With" elementType="Header">
+                    <stringProp name="Header.name">X-Requested-With</stringProp>
+                    <stringProp name="Header.value">XMLHttpRequest</stringProp>
+                  </elementProp>
+                  <elementProp name="Content-Type" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json; charset=utf-8</stringProp>
+                  </elementProp>
+                  <elementProp name="userId" elementType="Header">
+                    <stringProp name="Header.name">userId</stringProp>
+                    <stringProp name="Header.value">730e576b-9203-4f58-a0d6-443596f656f7</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Encoding" elementType="Header">
+                    <stringProp name="Header.name">Accept-Encoding</stringProp>
+                    <stringProp name="Header.value">gzip, deflate</stringProp>
+                  </elementProp>
+                  <elementProp name="User-Agent" elementType="Header">
+                    <stringProp name="Header.name">User-Agent</stringProp>
+                    <stringProp name="Header.value">Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:45.0) Gecko/20100101 Firefox/45.0</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json, text/javascript, */*; q=0.01</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller - Get Asset (case 4)" enabled="true">
+            <boolProp name="TransactionController.includeTimers">false</boolProp>
+            <boolProp name="TransactionController.parent">false</boolProp>
+          </TransactionController>
+          <hashTree>
+            <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config (KlassIds, asset Id)" enabled="true">
+              <stringProp name="filename">${filesPath}get-AssetData${extendedFileName}.csv</stringProp>
+              <stringProp name="fileEncoding">UTF-8</stringProp>
+              <stringProp name="variableNames">assetInstanceId</stringProp>
+              <stringProp name="delimiter">,</stringProp>
+              <boolProp name="quotedData">false</boolProp>
+              <boolProp name="recycle">true</boolProp>
+              <boolProp name="stopThread">true</boolProp>
+              <stringProp name="shareMode">shareMode.all</stringProp>
+            </CSVDataSet>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Asset" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&quot;attributes&quot;:[],&quot;tags&quot;:[],&quot;allSearch&quot;:&quot;&quot;,&quot;size&quot;:20,&quot;from&quot;:0,&quot;sortField&quot;:&quot;createdOn&quot;,&quot;sortOrder&quot;:&quot;desc&quot;,&quot;getFolders&quot;:true,&quot;getLeaves&quot;:true,&quot;isAttribute&quot;:false,&quot;isNumeric&quot;:false,&quot;selectedRoles&quot;:[],&quot;selectedTypes&quot;:[],&quot;isRed&quot;:true,&quot;isOrange&quot;:true,&quot;isYellow&quot;:true,&quot;isGreen&quot;:true,&quot;templateId&quot;:null,&quot;typeId&quot;:null,&quot;tabId&quot;:null,&quot;tabType&quot;:&quot;com.cs.config.interactor.entity.template.CustomTemplateTab&quot;,&quot;childContextId&quot;:null,&quot;selectedTimeRange&quot;:{&quot;endTime&quot;:null,&quot;startTime&quot;:null}}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${hostName}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding">${encodingType}</stringProp>
+              <stringProp name="HTTPSampler.path">${hostAddress}/runtime/assetinstances/overviewtab/${assetInstanceId}?lang=${lang}&amp;organizationId=${organizationId}&amp;physicalCatalogId=${physicalCatalogId}&amp;endpointId=${endpointId}&amp;endpointType=${endpointType}&amp;sessionId=3d5ad1a6-4624-4e59-8aa7-1116a5280435&amp;requestId=3af69ad6-fd15-4779-a432-6906cb9e046e</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="Referer" elementType="Header">
+                    <stringProp name="Header.name">Referer</stringProp>
+                    <stringProp name="Header.value">http://localhost:8090/REST/?login=zf4gh9qxs7n11wxrp9nh0djbs</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Language" elementType="Header">
+                    <stringProp name="Header.name">Accept-Language</stringProp>
+                    <stringProp name="Header.value">en-US,en;q=0.5</stringProp>
+                  </elementProp>
+                  <elementProp name="X-Requested-With" elementType="Header">
+                    <stringProp name="Header.name">X-Requested-With</stringProp>
+                    <stringProp name="Header.value">XMLHttpRequest</stringProp>
+                  </elementProp>
+                  <elementProp name="Content-Type" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json; charset=utf-8</stringProp>
+                  </elementProp>
+                  <elementProp name="userId" elementType="Header">
+                    <stringProp name="Header.name">userId</stringProp>
+                    <stringProp name="Header.value">730e576b-9203-4f58-a0d6-443596f656f7</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Encoding" elementType="Header">
+                    <stringProp name="Header.name">Accept-Encoding</stringProp>
+                    <stringProp name="Header.value">gzip, deflate</stringProp>
+                  </elementProp>
+                  <elementProp name="User-Agent" elementType="Header">
+                    <stringProp name="Header.name">User-Agent</stringProp>
+                    <stringProp name="Header.value">Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:45.0) Gecko/20100101 Firefox/45.0</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json, text/javascript, */*; q=0.01</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller - Save Article (case 5)" enabled="true">
+            <boolProp name="TransactionController.includeTimers">false</boolProp>
+            <boolProp name="TransactionController.parent">false</boolProp>
+          </TransactionController>
+          <hashTree>
+            <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config (KlassIds, combination of article and tags, assets)" enabled="true">
+              <stringProp name="filename">${filesPath}save-ArticleMainData${extendedFileName}.csv</stringProp>
+              <stringProp name="fileEncoding">UTF-8</stringProp>
+              <stringProp name="variableNames">articleKlassId,articleInstanceId,nameOfArticle,attributeComb,tagComb</stringProp>
+              <stringProp name="delimiter">,</stringProp>
+              <boolProp name="quotedData">false</boolProp>
+              <boolProp name="recycle">true</boolProp>
+              <boolProp name="stopThread">false</boolProp>
+              <stringProp name="shareMode">shareMode.all</stringProp>
+            </CSVDataSet>
+            <hashTree/>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler" enabled="true">
+              <stringProp name="BeanShellSampler.query">String articleInstanceId = vars.get(&quot;articleInstanceId&quot;);
+StringBuilder strBuild = new StringBuilder(articleInstanceId);
+
+strBuild.deleteCharAt(articleInstanceId.length() -1);
+strBuild.deleteCharAt(0);
+
+String articleId = strBuild.toString();
+vars.put(&quot;articleId&quot;, articleId);
+vars.put(&quot;articleId1&quot;, &quot;\&quot;&quot;+articleId+&quot;\&quot;&quot;);</stringProp>
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Article for Save" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&quot;attributes&quot;:[],&quot;tags&quot;:[],&quot;allSearch&quot;:&quot;&quot;,&quot;size&quot;:20,&quot;from&quot;:0,&quot;sortField&quot;:&quot;createdOn&quot;,&quot;sortOrder&quot;:&quot;desc&quot;,&quot;getFolders&quot;:true,&quot;getLeaves&quot;:true,&quot;isAttribute&quot;:false,&quot;isNumeric&quot;:false,&quot;selectedRoles&quot;:[],&quot;selectedTypes&quot;:[],&quot;isRed&quot;:true,&quot;isOrange&quot;:true,&quot;isYellow&quot;:true,&quot;isGreen&quot;:true,&quot;templateId&quot;:null,&quot;typeId&quot;:null,&quot;tabId&quot;:null,&quot;tabType&quot;:&quot;com.cs.config.interactor.entity.template.CustomTemplateTab&quot;,&quot;childContextId&quot;:null,&quot;selectedTimeRange&quot;:{&quot;endTime&quot;:null,&quot;startTime&quot;:null}}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${hostName}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding">${encodingType}</stringProp>
+              <stringProp name="HTTPSampler.path">/${hostAddress}/runtime/klassinstances/customtab/${articleId}?isLoadMore=false&amp;getAll=true&amp;lang=${lang}&amp;sessionId=eba2249c-741c-4577-990e-7a775aea0f58&amp;requestId=264bd1af-4d6d-4452-8ec6-ae2ccaa3df17&amp;lang=${lang}&amp;organizationId=${organizationId}&amp;physicalCatalogId=${physicalCatalogId}&amp;endpointId=${endpointId}&amp;endpointType=${endpointType}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="Referer" elementType="Header">
+                    <stringProp name="Header.name">Referer</stringProp>
+                    <stringProp name="Header.value">http://localhost:8090/REST/?login=zf4gh9qxs7n11wxrp9nh0djbs</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Language" elementType="Header">
+                    <stringProp name="Header.name">Accept-Language</stringProp>
+                    <stringProp name="Header.value">en-US,en;q=0.5</stringProp>
+                  </elementProp>
+                  <elementProp name="X-Requested-With" elementType="Header">
+                    <stringProp name="Header.name">X-Requested-With</stringProp>
+                    <stringProp name="Header.value">XMLHttpRequest</stringProp>
+                  </elementProp>
+                  <elementProp name="Content-Type" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json; charset=utf-8</stringProp>
+                  </elementProp>
+                  <elementProp name="userId" elementType="Header">
+                    <stringProp name="Header.name">userId</stringProp>
+                    <stringProp name="Header.value">730e576b-9203-4f58-a0d6-443596f656f7</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Encoding" elementType="Header">
+                    <stringProp name="Header.name">Accept-Encoding</stringProp>
+                    <stringProp name="Header.value">gzip, deflate</stringProp>
+                  </elementProp>
+                  <elementProp name="User-Agent" elementType="Header">
+                    <stringProp name="Header.name">User-Agent</stringProp>
+                    <stringProp name="Header.value">Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:45.0) Gecko/20100101 Firefox/45.0</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json, text/javascript, */*; q=0.01</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="parameters"></stringProp>
+                <stringProp name="filename"></stringProp>
+                <stringProp name="script">import com.eclipsesource.json.*;
+
+String responseCode 	 = prev.getResponseCode();
+String JsonResponseString = prev.getResponseDataAsString();
+// ******************** get Load Data **************************************
+
+String generatedDataAtttr 		= props.get(&quot;save_article_generatedDataAtttr&quot;);
+JsonObject attributeLoadObject 	= Json.parse(generatedDataAtttr).asObject();
+
+String generatedDataTag 			= props.get(&quot;save_article_generatedDataTag&quot;);
+JsonObject tagLoadObject 		= Json.parse(generatedDataTag).asObject();
+
+String attributeComb 			= vars.get(&quot;attributeComb&quot;);
+String[] attributeCombArray		= attributeComb.split(&quot;;&quot;);
+
+String tagComb 				= vars.get(&quot;tagComb&quot;);
+String[] tagCombArray			= tagComb.split(&quot;;&quot;);
+
+// **********************************************************
+if (responseCode.equals(&quot;200&quot;)) {
+    JsonObject responseInfoObject = Json.parse(JsonResponseString).asObject();
+
+    JsonObject response		    = responseInfoObject.get(&quot;success&quot;).asObject();
+    JsonObject klassResponse	    = response.get(&quot;klassInstance&quot;).asObject();
+    // for Version Maintaining
+    Integer versionId = klassResponse.get(&quot;versionId&quot;).asInt();
+    vars.put(&quot;versionId&quot;, versionId.toString());
+
+    // for attribute
+    JsonArray saveModifiedAttribute = klassResponse.get(&quot;attributes&quot;).asArray();
+    JsonArray saveModifiedAttribute1 = new JsonArray();
+
+    for (int k = 0; k &lt; attributeCombArray.length; k++) {
+
+        JsonObject genAttributeDataObject 	 = attributeLoadObject.get(attributeCombArray[k]).asObject();
+        String genAttributeDataObjectID 	 = genAttributeDataObject.get(&quot;attributeid&quot;).asString();
+        String attrTemp 					 = &quot;\&quot;&quot; + genAttributeDataObjectID + &quot;\&quot;&quot;;
+        String genAttributeDataObjectValue	 = genAttributeDataObject.get(&quot;value&quot;).asString();
+
+        for (int i = 0; i &lt; saveModifiedAttribute.size(); i++) {
+            JsonObject saveAttribute = saveModifiedAttribute.get(i).asObject();
+            if (attrTemp.equals(saveAttribute.get(&quot;attributeId&quot;).toString())) {
+                saveAttribute.add(&quot;addedTags&quot;, new JsonArray());
+                saveAttribute.add(&quot;modifiedTags&quot;, new JsonArray());
+                saveAttribute.add(&quot;deletedTags&quot;, new JsonArray());
+                saveAttribute.remove(&quot;tags&quot;);
+                saveAttribute.remove(&quot;value&quot;);
+                saveAttribute.remove(&quot;valueAsHtml&quot;);
+                saveAttribute.add(&quot;value&quot;, genAttributeDataObjectValue);
+                saveAttribute.add(&quot;valueAsHtml&quot;, genAttributeDataObjectValue);
+                saveAttribute.remove(&quot;baseType&quot;);
+                saveModifiedAttribute1.add(saveAttribute);
+            }
+        }
+        vars.put(&quot;modifiedAttributes&quot;, saveModifiedAttribute1.toString());
+
+    }
+
+    //*****************************************
+    // for tags
+    JsonArray saveModifiedTags = klassResponse.get(&quot;tags&quot;).asArray();
+    JsonArray saveModifiedTags1 = new JsonArray();
+
+    if (tagComb.equals(&quot;&quot;)) {
+        vars.put(&quot;modifiedTags&quot;, new JsonArray().toString());
+    } else {
+        for (int k = 0; k &lt; tagCombArray.length; k++) {
+            JsonObject genTagDataObject 		 = tagLoadObject.get(tagCombArray[k]).asObject();
+            String genTagDataObjectID 			 = genTagDataObject.get(&quot;tagId&quot;).asString();
+            String tagTemporaray 				 = &quot;\&quot;&quot; + genTagDataObjectID + &quot;\&quot;&quot;;
+            String genTagDataObjectSubTagId 		 = genTagDataObject.get(&quot;subtagId&quot;).asString();
+            String[] genTagDataObjectSubTagIdArray = genTagDataObjectSubTagId.split(&quot;;&quot;);
+
+            String genTagDataObjectRelevance		 = genTagDataObject.get(&quot;tagrelevance&quot;).asString();
+            String[] genTagDataObjectRelevanceArray = genTagDataObjectRelevance.split(&quot;;&quot;);
+
+
+            for (int i = 0; i &lt; saveModifiedTags.size(); i++) {
+                JsonObject saveTags = saveModifiedTags.get(i).asObject();
+
+                if (tagTemporaray.equals(saveTags.get(&quot;tagId&quot;).toString())) {
+                    saveTags.add(&quot;addedTagValues&quot;, new JsonArray());
+                    saveTags.add(&quot;deletedTagValues&quot;, new JsonArray());
+                    saveTags.add(&quot;modifiedTagValues&quot;, new JsonArray());
+
+                    saveTags.remove(&quot;tags&quot;);
+                    JsonArray insideTag = saveTags.get(&quot;tagValues&quot;).asArray();
+                    JsonArray saveTagData = saveTags.get(&quot;modifiedTagValues&quot;).asArray();
+
+                    for (int l = 0; l &lt; insideTag.size(); l++) // for all internal tags 
+                    {
+                        JsonObject tagData = insideTag.get(l).asObject();
+
+                        for (int m = 0; m &lt; genTagDataObjectSubTagIdArray.length; m++) {
+                            String subtagTemporaray = &quot;\&quot;&quot; + genTagDataObjectSubTagIdArray[m] + &quot;\&quot;&quot;;
+                            if (subtagTemporaray.equals(tagData.get(&quot;tagId&quot;).toString())) {
+                                tagData.remove(&quot;relevance&quot;);
+                                tagData.add(&quot;relevance&quot;, genTagDataObjectRelevanceArray[m]);
+                                saveTagData.add(tagData);
+                                break;
+                            }
+                        }
+                    }
+                    saveTags.add(&quot;addedTags&quot;, new JsonArray());
+                    saveTags.add(&quot;modifiedTags&quot;, new JsonArray());
+                    saveTags.add(&quot;deletedTags&quot;, new JsonArray());
+                    saveTags.remove(&quot;modifiedTagValues&quot;);
+                    saveTags.add(&quot;modifiedTagValues&quot;, saveTagData);
+                    saveTags.remove(&quot;tagValues&quot;);
+                    //saveTags.remove(&quot;baseType&quot;);
+                    saveModifiedTags1.add(saveTags);
+                }
+            }
+            vars.put(&quot;modifiedTags&quot;, saveModifiedTags1.toString());
+        }
+
+    }
+}</stringProp>
+              </BeanShellPostProcessor>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save call Article" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&quot;id&quot;:${articleInstanceId},&quot;name&quot;:${nameOfArticle},&quot;versionId&quot;:${versionId},&quot;versionTimestamp&quot;:1518171821007,&quot;lastModifiedBy&quot;:&quot;admin&quot;,&quot;createdBy&quot;:&quot;admin&quot;,&quot;createdOn&quot;:1518171820999,&quot;owner&quot;:&quot;admin&quot;,&quot;lastModified&quot;:1518171820999,&quot;jobId&quot;:null,&quot;componentId&quot;:null,&quot;types&quot;:[${articleKlassId}],&quot;taxonomyIds&quot;:[],&quot;selectedTaxonomyIds&quot;:[],&quot;organizationId&quot;:&quot;-1&quot;,&quot;physicalCatalogId&quot;:&quot;pim&quot;,&quot;logicalCatalogId&quot;:&quot;-1&quot;,&quot;systemId&quot;:null,&quot;endpointId&quot;:&quot;-1&quot;,&quot;originalInstanceId&quot;:&quot;ArticleInstanceId-1&quot;,&quot;defaultAssetInstanceId&quot;:null,&quot;branchOf&quot;:&quot;-1&quot;,&quot;versionOf&quot;:null,&quot;ruleViolation&quot;:[],&quot;messages&quot;:{&quot;notificationsCounter&quot;:0,&quot;isRed&quot;:false,&quot;isOrange&quot;:false,&quot;isYellow&quot;:false,&quot;isGreen&quot;:true,&quot;redCount&quot;:0,&quot;orangeCount&quot;:0,&quot;yellowCount&quot;:0,&quot;validityMessage&quot;:null,&quot;id&quot;:null,&quot;lastModifiedBy&quot;:null,&quot;versionTimestamp&quot;:null,&quot;versionId&quot;:null},&quot;context&quot;:null,&quot;summary&quot;:null,&quot;klassInstanceId&quot;:null,&quot;isSkipped&quot;:null,&quot;isFromExternalSource&quot;:null,&quot;path&quot;:[],&quot;parentVariantInstanceId&quot;:null,&quot;globalPermission&quot;:{&quot;id&quot;:null,&quot;canRead&quot;:true,&quot;canEdit&quot;:true,&quot;canDelete&quot;:true,&quot;canCreate&quot;:true,&quot;type&quot;:null,&quot;code&quot;:null,&quot;roleId&quot;:null,&quot;entityId&quot;:null,&quot;lastModifiedBy&quot;:null,&quot;versionTimestamp&quot;:null,&quot;versionId&quot;:null},&quot;addedAssets&quot;:[],&quot;deletedAssets&quot;:[],&quot;isDirty&quot;:true,&quot;addedAttributes&quot;:[],&quot;deletedAttributes&quot;:[],&quot;modifiedAttributes&quot;:${modifiedAttributes},&quot;addedRoles&quot;:[],&quot;deletedRoles&quot;:[],&quot;modifiedRoles&quot;:[],&quot;addedTags&quot;:[],&quot;deletedTags&quot;:[],&quot;modifiedTags&quot;:${modifiedTags},&quot;addedRelationships&quot;:[],&quot;deletedRelationships&quot;:[],&quot;modifiedRelationships&quot;:[],&quot;addedNatureRelationships&quot;:[],&quot;deletedNatureRelationships&quot;:[],&quot;modifiedNatureRelationships&quot;:[],&quot;modifiedAssets&quot;:[],&quot;addedLinkedInstances&quot;:[],&quot;deletedLinkedInstances&quot;:[],&quot;getKlassInstanceTreeInfo&quot;:{&quot;attributes&quot;:[],&quot;tags&quot;:[],&quot;allSearch&quot;:&quot;&quot;,&quot;size&quot;:20,&quot;from&quot;:0,&quot;isAttribute&quot;:false,&quot;isNumeric&quot;:false,&quot;selectedRoles&quot;:[],&quot;selectedTypes&quot;:[],&quot;isRed&quot;:false,&quot;isOrange&quot;:false,&quot;isYellow&quot;:false,&quot;isGreen&quot;:false},&quot;tabType&quot;:&quot;com.cs.config.interactor.entity.template.CustomTemplateTab&quot;,&quot;tabId&quot;:&quot;property_collection_tab&quot;,&quot;typeId&quot;:null,&quot;templateId&quot;:null,&quot;isLinked&quot;:true}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${hostName}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding">${encodingType}</stringProp>
+              <stringProp name="HTTPSampler.path">/${hostAddress}/runtime/klassinstances/tabs?isRollback=false&amp;lang=${lang}&amp;sessionId=eba2249c-741c-4577-990e-7a775aea0f58&amp;requestId=264bd1af-4d6d-4452-8ec6-ae2ccaa3df17&amp;lang=${lang}&amp;organizationId=${organizationId}&amp;physicalCatalogId=${physicalCatalogId}&amp;endpointId=${endpointId}&amp;endpointType=${endpointType}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="Referer" elementType="Header">
+                    <stringProp name="Header.name">Referer</stringProp>
+                    <stringProp name="Header.value">http://localhost:8090/REST/?login=hks9gh02hjw019p0zn1s1984x</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Language" elementType="Header">
+                    <stringProp name="Header.name">Accept-Language</stringProp>
+                    <stringProp name="Header.value">en-US,en;q=0.5</stringProp>
+                  </elementProp>
+                  <elementProp name="X-Requested-With" elementType="Header">
+                    <stringProp name="Header.name">X-Requested-With</stringProp>
+                    <stringProp name="Header.value">XMLHttpRequest</stringProp>
+                  </elementProp>
+                  <elementProp name="Content-Type" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json; charset=utf-8</stringProp>
+                  </elementProp>
+                  <elementProp name="userId" elementType="Header">
+                    <stringProp name="Header.name">userId</stringProp>
+                    <stringProp name="Header.value">730e576b-9203-4f58-a0d6-443596f656f7</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Encoding" elementType="Header">
+                    <stringProp name="Header.name">Accept-Encoding</stringProp>
+                    <stringProp name="Header.value">gzip, deflate</stringProp>
+                  </elementProp>
+                  <elementProp name="User-Agent" elementType="Header">
+                    <stringProp name="Header.name">User-Agent</stringProp>
+                    <stringProp name="Header.value">Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:45.0) Gecko/20100101 Firefox/45.0</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json, text/javascript, */*; q=0.01</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell Assertion" enabled="false">
+                <stringProp name="BeanShellAssertion.query">import com.eclipsesource.json.*;
+
+String responseCode 	 = prev.getResponseCode();
+String JsonResponseString = prev.getResponseDataAsString();
+
+if (responseCode.equals(&quot;200&quot;)) {
+    JsonObject responseInfoObject = Json.parse(JsonResponseString).asObject();
+    JsonObject response		    = responseInfoObject.get(&quot;success&quot;).asObject();
+    JsonObject klassResponse	    = response.get(&quot;klassInstance&quot;).asObject();
+
+    Integer versionId = klassResponse.get(&quot;versionId&quot;).asInt();
+
+    String nameToCheck = klassResponse.get(&quot;name&quot;).asString();
+
+	String name = vars.get(&quot;nameOfArticle&quot;);	
+	log.info(nameToCheck + &quot; &quot; + name);
+    if(nameToCheck.equals(name))
+    {
+    	 Failure = false;
+    }
+    else {
+    	Failure = true;
+    	FailureMessage = &quot;Value not updated&quot;;
+    }
+}</stringProp>
+                <stringProp name="BeanShellAssertion.filename"></stringProp>
+                <stringProp name="BeanShellAssertion.parameters"></stringProp>
+                <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+              </BeanShellAssertion>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller - Simple Search (case 6)" enabled="true">
+            <boolProp name="TransactionController.includeTimers">false</boolProp>
+            <boolProp name="TransactionController.parent">false</boolProp>
+          </TransactionController>
+          <hashTree>
+            <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config - Text to Search" enabled="true">
+              <stringProp name="filename">${filesPath}simpleSearch${extendedFileName}.csv</stringProp>
+              <stringProp name="fileEncoding">UTF-8</stringProp>
+              <stringProp name="variableNames">P_Name</stringProp>
+              <stringProp name="delimiter">,</stringProp>
+              <boolProp name="quotedData">false</boolProp>
+              <boolProp name="recycle">true</boolProp>
+              <boolProp name="stopThread">false</boolProp>
+              <stringProp name="shareMode">shareMode.all</stringProp>
+            </CSVDataSet>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Simple Search" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&quot;attributes&quot;:[],&quot;tags&quot;:[],&quot;allSearch&quot;:${P_Name},&quot;size&quot;:20,&quot;from&quot;:0,&quot;sortOptions&quot;:[{&quot;sortField&quot;:&quot;createdonattribute&quot;,&quot;sortOrder&quot;:&quot;desc&quot;,&quot;isNumeric&quot;:false}],&quot;getFolders&quot;:true,&quot;getLeaves&quot;:true,&quot;selectedRoles&quot;:[],&quot;selectedTypes&quot;:[],&quot;selectedTaxonomyIds&quot;:[],&quot;parentTaxonomyId&quot;:&quot;&quot;,&quot;clickedTaxonomyId&quot;:&quot;&quot;,&quot;moduleId&quot;:&quot;pimmodule&quot;,&quot;isRed&quot;:true,&quot;isOrange&quot;:true,&quot;isYellow&quot;:true,&quot;isGreen&quot;:true,&quot;logicalCatalogId&quot;:&quot;&quot;,&quot;systemId&quot;:&quot;&quot;,&quot;physicalCatalogId&quot;:&quot;pim&quot;,&quot;organizationId&quot;:&quot;-1&quot;,&quot;endpointId&quot;:null}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${hostName}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding">${encodingType}</stringProp>
+              <stringProp name="HTTPSampler.path">${hostAddress}/runtime/instancetree/-1?lang=${lang}&amp;sessionId=eba2249c-741c-4577-990e-7a775aea0f58&amp;requestId=264bd1af-4d6d-4452-8ec6-ae2ccaa3df17&amp;lang=${lang}&amp;organizationId=${organizationId}&amp;physicalCatalogId=${physicalCatalogId}&amp;endpointId=${endpointId}&amp;endpointType=${endpointType}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="Referer" elementType="Header">
+                    <stringProp name="Header.name">Referer</stringProp>
+                    <stringProp name="Header.value">http://localhost:8090/REST/?login=zf4gh9qxs7n11wxrp9nh0djbs</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Language" elementType="Header">
+                    <stringProp name="Header.name">Accept-Language</stringProp>
+                    <stringProp name="Header.value">en-US,en;q=0.5</stringProp>
+                  </elementProp>
+                  <elementProp name="X-Requested-With" elementType="Header">
+                    <stringProp name="Header.name">X-Requested-With</stringProp>
+                    <stringProp name="Header.value">XMLHttpRequest</stringProp>
+                  </elementProp>
+                  <elementProp name="Content-Type" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json; charset=utf-8</stringProp>
+                  </elementProp>
+                  <elementProp name="userId" elementType="Header">
+                    <stringProp name="Header.name">userId</stringProp>
+                    <stringProp name="Header.value">730e576b-9203-4f58-a0d6-443596f656f7</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Encoding" elementType="Header">
+                    <stringProp name="Header.name">Accept-Encoding</stringProp>
+                    <stringProp name="Header.value">gzip, deflate</stringProp>
+                  </elementProp>
+                  <elementProp name="User-Agent" elementType="Header">
+                    <stringProp name="Header.name">User-Agent</stringProp>
+                    <stringProp name="Header.value">Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:45.0) Gecko/20100101 Firefox/45.0</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json, text/javascript, */*; q=0.01</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller - ParametricSearch 1 (taxonomy) (case 7)" enabled="true">
+            <boolProp name="TransactionController.includeTimers">false</boolProp>
+            <boolProp name="TransactionController.parent">false</boolProp>
+          </TransactionController>
+          <hashTree>
+            <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config - Parametric Search 1" enabled="true">
+              <stringProp name="delimiter">,</stringProp>
+              <stringProp name="fileEncoding">UTF-8</stringProp>
+              <stringProp name="filename">${filesPath}parametericSearch_1_Main${extendedFileName}.csv</stringProp>
+              <boolProp name="quotedData">false</boolProp>
+              <boolProp name="recycle">true</boolProp>
+              <stringProp name="shareMode">shareMode.all</stringProp>
+              <boolProp name="stopThread">false</boolProp>
+              <stringProp name="variableNames">P_selectedTaxonomyIds,P_parentTaxonomyId,P_from,P_size</stringProp>
+            </CSVDataSet>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="ParametricSearch01_SearchTaxonomy" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&quot;attributes&quot;:[],&quot;tags&quot;:[],&quot;allSearch&quot;:&quot;&quot;,&quot;size&quot;:${P_size},&quot;from&quot;:${P_from},&quot;sortOptions&quot;:[{&quot;sortField&quot;:&quot;createdonattribute&quot;,&quot;sortOrder&quot;:&quot;desc&quot;,&quot;isNumeric&quot;:false}],&quot;getFolders&quot;:true,&quot;getLeaves&quot;:true,&quot;selectedRoles&quot;:[],&quot;selectedTypes&quot;:[],&quot;selectedTaxonomyIds&quot;:[&quot;${P_selectedTaxonomyIds}&quot;],&quot;parentTaxonomyId&quot;:&quot;${P_parentTaxonomyId}&quot;,&quot;clickedTaxonomyId&quot;:&quot;&quot;,&quot;moduleId&quot;:&quot;pimmodule&quot;,&quot;isRed&quot;:true,&quot;isOrange&quot;:true,&quot;isYellow&quot;:true,&quot;isGreen&quot;:true,&quot;logicalCatalogId&quot;:&quot;&quot;,&quot;systemId&quot;:&quot;&quot;,&quot;physicalCatalogId&quot;:&quot;pim&quot;,&quot;organizationId&quot;:&quot;-1&quot;,&quot;endpointId&quot;:null}&#xd;
+</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${hostName}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding">${encodingType}</stringProp>
+              <stringProp name="HTTPSampler.path">${hostAddress}/runtime/instancetree/-1?lang=${lang}&amp;sessionId=eba2249c-741c-4577-990e-7a775aea0f58&amp;requestId=264bd1af-4d6d-4452-8ec6-ae2ccaa3df17&amp;lang=${lang}&amp;organizationId=${organizationId}&amp;physicalCatalogId=${physicalCatalogId}&amp;endpointId=${endpointId}&amp;endpointType=${endpointType}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="Accept" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json, text/javascript, */*; q=0.01</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Encoding" elementType="Header">
+                    <stringProp name="Header.name">Accept-Encoding</stringProp>
+                    <stringProp name="Header.value">gzip, deflate, sdch, br</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Language" elementType="Header">
+                    <stringProp name="Header.name">Accept-Language</stringProp>
+                    <stringProp name="Header.value">en-US,en;q=0.8</stringProp>
+                  </elementProp>
+                  <elementProp name="Connection" elementType="Header">
+                    <stringProp name="Header.name">Connection</stringProp>
+                    <stringProp name="Header.value">keep-alive</stringProp>
+                  </elementProp>
+                  <elementProp name="Content-Type" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json; charset=utf-8</stringProp>
+                  </elementProp>
+                  <elementProp name="Host" elementType="Header">
+                    <stringProp name="Header.name">Host</stringProp>
+                    <stringProp name="Header.value">demo.contentsphere.com</stringProp>
+                  </elementProp>
+                  <elementProp name="User-Agent" elementType="Header">
+                    <stringProp name="Header.name">User-Agent</stringProp>
+                    <stringProp name="Header.value">Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.87 Safari/537.36</stringProp>
+                  </elementProp>
+                  <elementProp name="X-Requested-With" elementType="Header">
+                    <stringProp name="Header.name">X-Requested-With</stringProp>
+                    <stringProp name="Header.value">XMLHttpRequest</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <BeanShellPreProcessor guiclass="TestBeanGUI" testclass="BeanShellPreProcessor" testname="Separate multiple taxonomies" enabled="true">
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="parameters"></stringProp>
+                <stringProp name="filename"></stringProp>
+                <stringProp name="script">vars.put(&quot;P_selectedTaxonomyIds&quot;, vars.get(&quot;P_selectedTaxonomyIds&quot;).replace(&quot;;&quot;, &quot;\&quot;,\&quot;&quot;));</stringProp>
+              </BeanShellPreProcessor>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller - ParametricSearch 2 (Attribute and Tags) (case 8)" enabled="true">
+            <boolProp name="TransactionController.includeTimers">false</boolProp>
+            <boolProp name="TransactionController.parent">false</boolProp>
+          </TransactionController>
+          <hashTree>
+            <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config - Parametric Search 2" enabled="true">
+              <stringProp name="filename">${filesPath}parametricSearch_2_Mapping${extendedFileName}.csv</stringProp>
+              <stringProp name="fileEncoding">UTF-8</stringProp>
+              <stringProp name="variableNames">attributeIdSearch,tagIdSearch,advanceSearchFilter</stringProp>
+              <stringProp name="delimiter">,</stringProp>
+              <boolProp name="quotedData">false</boolProp>
+              <boolProp name="recycle">true</boolProp>
+              <boolProp name="stopThread">true</boolProp>
+              <stringProp name="shareMode">shareMode.all</stringProp>
+            </CSVDataSet>
+            <hashTree/>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Prepare Data for Search" enabled="true">
+              <stringProp name="BeanShellSampler.query">import com.eclipsesource.json.*;
+import java.util.UUID;
+
+// ******************** get Loaded Data **************************************
+
+String generatedDataAtttr      = props.get(&quot;parametricSearch2_generatedDataAtttr&quot;);
+JsonObject attributeLoadObject = Json.parse(generatedDataAtttr).asObject();
+
+String generatedDataTag  	= props.get(&quot;parametricSearch2_generatedDataTag&quot;);
+JsonObject tagLoadObject 	= Json.parse(generatedDataTag).asObject();
+
+String attributeComb        	= vars.get(&quot;attributeIdSearch&quot;);
+String tagComb        		= vars.get(&quot;tagIdSearch&quot;);
+String[] attributeCombArray;
+String[] tagCombArray;
+
+if(attributeComb == null || attributeComb.isEmpty()){
+  attributeCombArray = null;
+} else {
+  attributeCombArray = attributeComb.split(&quot;;&quot;);
+}
+
+if(tagComb  == null || tagComb.isEmpty()){
+  tagCombArray = null;
+} else {
+  tagCombArray = tagComb.split(&quot;;&quot;);
+}
+
+Boolean advanceFilter = Boolean.parseBoolean(vars.get(&quot;advanceSearchFilter&quot;));
+
+// for attribute
+JsonArray saveModifiedAttribute1  = new JsonArray();
+
+if(attributeCombArray != null)
+{
+	for(int k=0; k &lt; attributeCombArray.length; k++)
+	{
+	JsonObject genAttributeDataObject = attributeLoadObject.get(attributeCombArray[k]).asObject();
+	String genAttributeDataObjectID   = genAttributeDataObject.get(&quot;A_id&quot;).asString();
+	String type                       = genAttributeDataObject.get(&quot;A_type&quot;).asString();
+	String mtype                      = genAttributeDataObject.get(&quot;A_mtype&quot;).asString();
+	String from                       = genAttributeDataObject.get(&quot;A_from&quot;).asString();
+	String to                         = genAttributeDataObject.get(&quot;A_to&quot;).asString();
+	String value                      = genAttributeDataObject.get(&quot;A_value&quot;).asString();
+	String mBaseType                  = genAttributeDataObject.get(&quot;A_mBaseType&quot;).asString();
+
+     JsonObject saveAttribute = new JsonObject();
+   	saveAttribute.add(&quot;id&quot;, genAttributeDataObjectID);
+   	saveAttribute.add(&quot;type&quot;, type);
+	JsonObject saveMandatoryArray  = new JsonObject();
+
+	String idForMandatory = UUID.randomUUID().toString();
+	saveMandatoryArray.add(&quot;id&quot;, idForMandatory);
+	saveMandatoryArray.add(&quot;type&quot;, mtype);
+  
+	if(mtype.equals(&quot;exact&quot;))
+	{
+	 saveMandatoryArray.add(&quot;value&quot;, value);
+	} 
+	else if(mtype.equals(&quot;range&quot;)) 
+	{
+	  saveMandatoryArray.add(&quot;to&quot;, Long.parseLong(to));
+	  saveMandatoryArray.add(&quot;from&quot;, Long.parseLong(from));
+	}
+     
+	saveMandatoryArray.add(&quot;baseType&quot;, mBaseType);
+	saveMandatoryArray.add(&quot;defaultUnit&quot;, &quot;&quot;);
+	saveMandatoryArray.add(&quot;advancedSearchFilter&quot;, advanceFilter);
+	
+	JsonArray saveMandatoryArrayPut  = new JsonArray();
+	saveMandatoryArrayPut.add(saveMandatoryArray);
+	  
+	saveAttribute.add(&quot;mandatory&quot;,saveMandatoryArrayPut);
+	saveAttribute.add(&quot;should&quot;, new JsonArray());
+	saveAttribute.add(&quot;label&quot;, &quot;&quot;);
+   	saveAttribute.add(&quot;advancedSearchFilter&quot;, advanceFilter);
+	
+   	saveModifiedAttribute1.add(saveAttribute);
+	}
+	vars.put(&quot;SearchedAttributes&quot;, saveModifiedAttribute1.toString());
+} else {
+	vars.put(&quot;SearchedAttributes&quot;, saveModifiedAttribute1.toString());
+}
+
+// for tags
+
+JsonArray saveModifiedTags1  = new JsonArray();
+if(tagCombArray != null)
+{
+  for(int k=0; k &lt; tagCombArray.length; k++)
+  {
+	JsonObject genTagDataObject = tagLoadObject.get(tagCombArray[k]).asObject();
+	String genTagDataObjectID   = genTagDataObject.get(&quot;T_id&quot;).asString();
+	String tagTemporaray        = new String(genTagDataObjectID);
+     String type                 = genTagDataObject.get(&quot;T_type&quot;).asString();	
+	String mtype                = genTagDataObject.get(&quot;T_mtype&quot;).asString();	
+	String from                 = genTagDataObject.get(&quot;T_from&quot;).asString();	
+	String to                   = genTagDataObject.get(&quot;T_to&quot;).asString();
+     String mBaseType            = genTagDataObject.get(&quot;T_mBaseType&quot;).asString();
+    
+	JsonObject saveTag  = new JsonObject();
+   	saveTag.add(&quot;id&quot;, tagTemporaray);
+   	saveTag.add(&quot;type&quot;, type);
+	JsonObject saveMandatoryArray  = new JsonObject();
+	String idForMandatory          = UUID.randomUUID().toString();
+	saveMandatoryArray.add(&quot;id&quot;, genTagDataObject.get(&quot;T_SubTagId&quot;).asString());
+	saveMandatoryArray.add(&quot;type&quot;, mtype);
+	saveMandatoryArray.add(&quot;baseType&quot;, mBaseType);
+	saveMandatoryArray.add(&quot;to&quot;, 100);
+	saveMandatoryArray.add(&quot;from&quot;, 100);
+	
+	JsonArray saveMandatoryArrayPut  = new JsonArray();
+	saveMandatoryArrayPut.add(saveMandatoryArray);
+	
+	saveTag.add(&quot;mandatory&quot;,saveMandatoryArrayPut);
+	saveTag.add(&quot;label&quot;, &quot;&quot;);
+ 	saveModifiedTags1.add(saveTag);
+  }
+     vars.put(&quot;SearchedTags&quot;, saveModifiedTags1.toString());
+} else {
+     vars.put(&quot;SearchedTags&quot;, saveModifiedTags1.toString());
+}
+</stringProp>
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="ParametricSearch2 Search Attributes &amp; Tags" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&quot;attributes&quot;:${SearchedAttributes},&quot;tags&quot;:${SearchedTags},&quot;allSearch&quot;:&quot;&quot;,&quot;size&quot;:20,&quot;from&quot;:0,&quot;sortOptions&quot;:[{&quot;sortField&quot;:&quot;lastmodifiedattribute&quot;,&quot;sortOrder&quot;:&quot;desc&quot;,&quot;isNumeric&quot;:false}],&quot;getFolders&quot;:true,&quot;getLeaves&quot;:true,&quot;selectedRoles&quot;:[],&quot;selectedTypes&quot;:[],&quot;selectedTaxonomyIds&quot;:[],&quot;parentTaxonomyId&quot;:&quot;&quot;,&quot;clickedTaxonomyId&quot;:&quot;&quot;,&quot;moduleId&quot;:&quot;pimmodule&quot;,&quot;isRed&quot;:true,&quot;isOrange&quot;:true,&quot;isYellow&quot;:true,&quot;isGreen&quot;:true,&quot;logicalCatalogId&quot;:&quot;&quot;,&quot;systemId&quot;:&quot;&quot;,&quot;physicalCatalogId&quot;:&quot;pim&quot;,&quot;organizationId&quot;:&quot;-1&quot;,&quot;endpointId&quot;:&quot;&quot;,&quot;xrayAttributes&quot;:[&quot;nameattribute&quot;],&quot;xrayTags&quot;:[]}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${hostName}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding">${encodingType}</stringProp>
+              <stringProp name="HTTPSampler.path">${hostAddress}/runtime/instancetree/-1?lang=${lang}&amp;sessionId=eba2249c-741c-4577-990e-7a775aea0f58&amp;requestId=264bd1af-4d6d-4452-8ec6-ae2ccaa3df17&amp;lang=${lang}&amp;organizationId=${organizationId}&amp;physicalCatalogId=${physicalCatalogId}&amp;endpointId=${endpointId}&amp;endpointType=${endpointType}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="Accept" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json, text/javascript, */*; q=0.01</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Encoding" elementType="Header">
+                    <stringProp name="Header.name">Accept-Encoding</stringProp>
+                    <stringProp name="Header.value">gzip, deflate, sdch, br</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Language" elementType="Header">
+                    <stringProp name="Header.name">Accept-Language</stringProp>
+                    <stringProp name="Header.value">en-US,en;q=0.8</stringProp>
+                  </elementProp>
+                  <elementProp name="Connection" elementType="Header">
+                    <stringProp name="Header.name">Connection</stringProp>
+                    <stringProp name="Header.value">keep-alive</stringProp>
+                  </elementProp>
+                  <elementProp name="Content-Type" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json; charset=utf-8</stringProp>
+                  </elementProp>
+                  <elementProp name="Host" elementType="Header">
+                    <stringProp name="Header.name">Host</stringProp>
+                    <stringProp name="Header.value">192.168.132.175</stringProp>
+                  </elementProp>
+                  <elementProp name="User-Agent" elementType="Header">
+                    <stringProp name="Header.name">User-Agent</stringProp>
+                    <stringProp name="Header.value">Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.87 Safari/537.36</stringProp>
+                  </elementProp>
+                  <elementProp name="X-Requested-With" elementType="Header">
+                    <stringProp name="Header.name">X-Requested-With</stringProp>
+                    <stringProp name="Header.value">XMLHttpRequest</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller - ParametricSearch 3 (Attribute and Tags) (case 9)" enabled="true">
+            <boolProp name="TransactionController.includeTimers">false</boolProp>
+            <boolProp name="TransactionController.parent">false</boolProp>
+          </TransactionController>
+          <hashTree>
+            <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config - Parametric Search 2" enabled="true">
+              <stringProp name="filename">${filesPath}parametricSearch_3_Mapping${extendedFileName}.csv</stringProp>
+              <stringProp name="fileEncoding">UTF-8</stringProp>
+              <stringProp name="variableNames">attributeIdSearch3,tagIdSearch3,advanceSearchFilter3</stringProp>
+              <stringProp name="delimiter">,</stringProp>
+              <boolProp name="quotedData">false</boolProp>
+              <boolProp name="recycle">true</boolProp>
+              <boolProp name="stopThread">true</boolProp>
+              <stringProp name="shareMode">shareMode.all</stringProp>
+            </CSVDataSet>
+            <hashTree/>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Prepare Data for Search" enabled="true">
+              <stringProp name="BeanShellSampler.query">import com.eclipsesource.json.*;
+import java.util.UUID;
+
+// ******************** get Loaded Data **************************************
+
+String generatedDataAtttr      = props.get(&quot;parametricSearch3_generatedDataAtttr&quot;);
+JsonObject attributeLoadObject =  Json.parse(generatedDataAtttr).asObject();
+
+String generatedDataTag  	= props.get(&quot;parametricSearch3_generatedDataTag&quot;);
+JsonObject tagLoadObject 	=  Json.parse(generatedDataTag).asObject();
+
+String attributeComb        	= vars.get(&quot;attributeIdSearch3&quot;);
+String tagComb        		= vars.get(&quot;tagIdSearch3&quot;);
+String[] attributeCombArray;
+String[] tagCombArray;
+
+if(attributeComb == null || attributeComb.isEmpty()){
+  attributeCombArray = null;
+} else {
+  attributeCombArray = attributeComb.split(&quot;;&quot;);
+}
+
+if(tagComb == null || tagComb.isEmpty()){
+  tagCombArray = null;
+} else {
+  tagCombArray = tagComb.split(&quot;;&quot;);
+}
+
+Boolean advanceFilter = Boolean.parseBoolean(vars.get(&quot;advanceSearchFilter3&quot;));
+
+// for attribute
+JsonArray saveModifiedAttribute1  = new JsonArray();
+
+if(attributeCombArray != null)
+{
+	for(int k=0; k &lt; attributeCombArray.length; k++)
+	{
+	JsonObject genAttributeDataObject = attributeLoadObject.get(attributeCombArray[k]).asObject();
+	String genAttributeDataObjectID   =  genAttributeDataObject.get(&quot;A_id&quot;).asString();
+	String type                       = genAttributeDataObject.get(&quot;A_type&quot;).asString();
+	String mtype                      = genAttributeDataObject.get(&quot;A_mtype&quot;).asString();
+	String from                       = genAttributeDataObject.get(&quot;A_from&quot;).asString();
+	String to                         = genAttributeDataObject.get(&quot;A_to&quot;).asString();
+	String value                      = genAttributeDataObject.get(&quot;A_value&quot;).asString();
+	String mBaseType                  = genAttributeDataObject.get(&quot;A_mBaseType&quot;).asString();
+
+     JsonObject saveAttribute = new JsonObject();
+   	saveAttribute.add(&quot;id&quot;, genAttributeDataObjectID);
+   	saveAttribute.add(&quot;type&quot;, type);
+	JsonObject saveMandatoryArray  = new JsonObject();
+//	String idForMandatory = vars.get(&quot;P_A_from&quot;) + &quot;-&quot; + vars.get(&quot;P_A_to&quot;);
+	String idForMandatory = UUID.randomUUID().toString();
+	saveMandatoryArray.add(&quot;id&quot;, idForMandatory);
+	saveMandatoryArray.add(&quot;type&quot;, mtype);
+
+	if(mtype.equals(&quot;exact&quot;))
+	{
+	 saveMandatoryArray.add(&quot;value&quot;, value);
+	} 
+	else if(mtype.equals(&quot;range&quot;)) 
+	{
+	  saveMandatoryArray.add(&quot;to&quot;, Long.parseLong(to));
+	  saveMandatoryArray.add(&quot;from&quot;, Long.parseLong(from));
+	}
+	
+	saveMandatoryArray.add(&quot;baseType&quot;, mBaseType);
+	saveMandatoryArray.add(&quot;defaultUnit&quot;, &quot;&quot;);
+	saveMandatoryArray.add(&quot;advancedSearchFilter&quot;, advanceFilter);
+	
+	JsonArray saveMandatoryArrayPut  = new JsonArray();
+	saveMandatoryArrayPut.add(saveMandatoryArray);
+	  
+	saveAttribute.add(&quot;mandatory&quot;,saveMandatoryArrayPut);
+	saveAttribute.add(&quot;should&quot;, new JsonArray());
+	saveAttribute.add(&quot;label&quot;, &quot;&quot;);
+   	saveAttribute.add(&quot;advancedSearchFilter&quot;, advanceFilter);
+	
+   	saveModifiedAttribute1.add(saveAttribute);
+	}
+	vars.put(&quot;SearchedAttributes&quot;, saveModifiedAttribute1.toString());
+} else {
+	attributeCombvars.put(&quot;SearchedAttributes&quot;, saveModifiedAttribute1.toString());
+}
+
+// for tags
+
+JsonArray saveModifiedTags1  = new JsonArray();
+if(tagCombArray != null)
+{
+  for(int k=0; k &lt; tagCombArray.length; k++)
+  {
+	JsonObject genTagDataObject = tagLoadObject.get(tagCombArray[k]).asObject();
+	String genTagDataObjectID 	= genTagDataObject.get(&quot;T_id&quot;).asString();
+	String tagTemporaray        = new String(genTagDataObjectID);
+     String type                 = genTagDataObject.get(&quot;T_type&quot;).asString();	
+	String mtype                = genTagDataObject.get(&quot;T_mtype&quot;).asString();	
+	String from                 = genTagDataObject.get(&quot;T_from&quot;).asString();	
+	String to                   = genTagDataObject.get(&quot;T_to&quot;).asString();
+     String mBaseType            = genTagDataObject.get(&quot;T_mBaseType&quot;).asString();
+    
+	JsonObject saveTag  = new JsonObject();
+   	saveTag.add(&quot;id&quot;, tagTemporaray);
+   	saveTag.add(&quot;type&quot;, type);
+   	saveTag.add(&quot;advancedSearchFilter&quot;, advanceFilter);
+	JsonObject saveMandatoryArray  = new JsonObject();
+	String idForMandatory          = UUID.randomUUID().toString();
+	saveMandatoryArray.add(&quot;id&quot;, genTagDataObject.get(&quot;T_SubTagId&quot;).asString());
+	saveMandatoryArray.add(&quot;type&quot;, mtype);
+	saveMandatoryArray.add(&quot;baseType&quot;, mBaseType);
+	saveMandatoryArray.add(&quot;to&quot;, 100);
+	saveMandatoryArray.add(&quot;from&quot;, 100);
+	saveMandatoryArray.add(&quot;advancedSearchFilter&quot;, advanceFilter);
+	
+	JsonArray saveMandatoryArrayPut  = new JsonArray();
+	saveMandatoryArrayPut.add(saveMandatoryArray);
+	
+	saveTag.add(&quot;mandatory&quot;,saveMandatoryArrayPut);
+	saveTag.add(&quot;label&quot;, &quot;&quot;);
+ 	saveModifiedTags1.add(saveTag);
+  }
+     vars.put(&quot;SearchedTags&quot;, saveModifiedTags1.toString());
+} else {
+     vars.put(&quot;SearchedTags&quot;, saveModifiedTags1.toString());
+}</stringProp>
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="ParametricSearch3 Search Attributes &amp; Tags (Advance)" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&quot;attributes&quot;:${SearchedAttributes},&quot;tags&quot;:${SearchedTags},&quot;allSearch&quot;:&quot;&quot;,&quot;size&quot;:20,&quot;from&quot;:0,&quot;sortOptions&quot;:[{&quot;sortField&quot;:&quot;lastmodifiedattribute&quot;,&quot;sortOrder&quot;:&quot;desc&quot;,&quot;isNumeric&quot;:false}],&quot;getFolders&quot;:true,&quot;getLeaves&quot;:true,&quot;selectedRoles&quot;:[],&quot;selectedTypes&quot;:[],&quot;selectedTaxonomyIds&quot;:[],&quot;parentTaxonomyId&quot;:&quot;&quot;,&quot;clickedTaxonomyId&quot;:&quot;&quot;,&quot;moduleId&quot;:&quot;pimmodule&quot;,&quot;isRed&quot;:true,&quot;isOrange&quot;:true,&quot;isYellow&quot;:true,&quot;isGreen&quot;:true,&quot;logicalCatalogId&quot;:&quot;&quot;,&quot;systemId&quot;:&quot;&quot;,&quot;physicalCatalogId&quot;:&quot;pim&quot;,&quot;organizationId&quot;:&quot;-1&quot;,&quot;endpointId&quot;:&quot;&quot;,&quot;xrayAttributes&quot;:[&quot;nameattribute&quot;],&quot;xrayTags&quot;:[]}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${hostName}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding">${encodingType}</stringProp>
+              <stringProp name="HTTPSampler.path">${hostAddress}/runtime/instancetree/-1?lang=${lang}&amp;sessionId=eba2249c-741c-4577-990e-7a775aea0f58&amp;requestId=264bd1af-4d6d-4452-8ec6-ae2ccaa3df17&amp;lang=${lang}&amp;organizationId=${organizationId}&amp;physicalCatalogId=${physicalCatalogId}&amp;endpointId=${endpointId}&amp;endpointType=${endpointType}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="Accept" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json, text/javascript, */*; q=0.01</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Encoding" elementType="Header">
+                    <stringProp name="Header.name">Accept-Encoding</stringProp>
+                    <stringProp name="Header.value">gzip, deflate, sdch, br</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Language" elementType="Header">
+                    <stringProp name="Header.name">Accept-Language</stringProp>
+                    <stringProp name="Header.value">en-US,en;q=0.8</stringProp>
+                  </elementProp>
+                  <elementProp name="Connection" elementType="Header">
+                    <stringProp name="Header.name">Connection</stringProp>
+                    <stringProp name="Header.value">keep-alive</stringProp>
+                  </elementProp>
+                  <elementProp name="Content-Type" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json; charset=utf-8</stringProp>
+                  </elementProp>
+                  <elementProp name="Host" elementType="Header">
+                    <stringProp name="Header.name">Host</stringProp>
+                    <stringProp name="Header.value">192.168.132.175</stringProp>
+                  </elementProp>
+                  <elementProp name="User-Agent" elementType="Header">
+                    <stringProp name="Header.name">User-Agent</stringProp>
+                    <stringProp name="Header.value">Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.87 Safari/537.36</stringProp>
+                  </elementProp>
+                  <elementProp name="X-Requested-With" elementType="Header">
+                    <stringProp name="Header.name">X-Requested-With</stringProp>
+                    <stringProp name="Header.value">XMLHttpRequest</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller - Link Article to Asset (case 10)" enabled="true">
+            <boolProp name="TransactionController.includeTimers">false</boolProp>
+            <boolProp name="TransactionController.parent">false</boolProp>
+          </TransactionController>
+          <hashTree>
+            <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config - Link Article to Asset" enabled="true">
+              <stringProp name="filename">${filesPath}link_Article_To_Asset${extendedFileName}.csv</stringProp>
+              <stringProp name="fileEncoding">UTF-8</stringProp>
+              <stringProp name="variableNames">articleInstanceId,assetInstanceId,relationshipId</stringProp>
+              <stringProp name="delimiter">,</stringProp>
+              <boolProp name="quotedData">false</boolProp>
+              <boolProp name="recycle">false</boolProp>
+              <boolProp name="stopThread">true</boolProp>
+              <stringProp name="shareMode">shareMode.all</stringProp>
+            </CSVDataSet>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Article for Link Article to Asset" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&quot;attributes&quot;:[],&quot;tags&quot;:[],&quot;allSearch&quot;:&quot;&quot;,&quot;size&quot;:20,&quot;from&quot;:0,&quot;sortField&quot;:&quot;createdOn&quot;,&quot;sortOrder&quot;:&quot;desc&quot;,&quot;getFolders&quot;:true,&quot;getLeaves&quot;:true,&quot;isAttribute&quot;:false,&quot;isNumeric&quot;:false,&quot;selectedRoles&quot;:[],&quot;selectedTypes&quot;:[],&quot;isRed&quot;:true,&quot;isOrange&quot;:true,&quot;isYellow&quot;:true,&quot;isGreen&quot;:true,&quot;templateId&quot;:null,&quot;typeId&quot;:null,&quot;tabId&quot;:&quot;relationship_tab&quot;,&quot;tabType&quot;:&quot;com.cs.config.interactor.entity.template.CustomTemplateTab&quot;,&quot;childContextId&quot;:null,&quot;selectedTimeRange&quot;:{&quot;endTime&quot;:null,&quot;startTime&quot;:null}}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${hostName}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding">${encodingType}</stringProp>
+              <stringProp name="HTTPSampler.path">/${hostAddress}/runtime/klassinstances/customtab/${articleInstanceId}?isLoadMore=false&amp;getAll=true&amp;lang=${lang}&amp;sessionId=eba2249c-741c-4577-990e-7a775aea0f58&amp;requestId=264bd1af-4d6d-4452-8ec6-ae2ccaa3df17&amp;lang=${lang}&amp;organizationId=${organizationId}&amp;physicalCatalogId=${physicalCatalogId}&amp;endpointId=${endpointId}&amp;endpointType=${endpointType}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="Referer" elementType="Header">
+                    <stringProp name="Header.name">Referer</stringProp>
+                    <stringProp name="Header.value">http://localhost:8090/REST/?login=zf4gh9qxs7n11wxrp9nh0djbs</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Language" elementType="Header">
+                    <stringProp name="Header.name">Accept-Language</stringProp>
+                    <stringProp name="Header.value">en-US,en;q=0.5</stringProp>
+                  </elementProp>
+                  <elementProp name="X-Requested-With" elementType="Header">
+                    <stringProp name="Header.name">X-Requested-With</stringProp>
+                    <stringProp name="Header.value">XMLHttpRequest</stringProp>
+                  </elementProp>
+                  <elementProp name="Content-Type" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json; charset=utf-8</stringProp>
+                  </elementProp>
+                  <elementProp name="userId" elementType="Header">
+                    <stringProp name="Header.name">userId</stringProp>
+                    <stringProp name="Header.value">730e576b-9203-4f58-a0d6-443596f656f7</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Encoding" elementType="Header">
+                    <stringProp name="Header.name">Accept-Encoding</stringProp>
+                    <stringProp name="Header.value">gzip, deflate</stringProp>
+                  </elementProp>
+                  <elementProp name="User-Agent" elementType="Header">
+                    <stringProp name="Header.name">User-Agent</stringProp>
+                    <stringProp name="Header.value">Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:45.0) Gecko/20100101 Firefox/45.0</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json, text/javascript, */*; q=0.01</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="parameters"></stringProp>
+                <stringProp name="filename"></stringProp>
+                <stringProp name="script">import com.eclipsesource.json.*;
+
+String responseCode = prev.getResponseCode();
+String JsonResponseString = prev.getResponseDataAsString();
+
+if(responseCode.equals(&quot;200&quot;))
+{
+   JsonObject responseInfoObject       =  Json.parse(JsonResponseString).asObject();
+   JsonObject successObject            = responseInfoObject.get(&quot;success&quot;).asObject();
+   JsonArray contentRelationshipsArray = successObject.get(&quot;contentRelationships&quot;).asArray();
+   JsonObject configDetailsObject      = successObject.get(&quot;configDetails&quot;).asObject();
+   JsonObject klassInstanceObject      = successObject.get(&quot;klassInstance&quot;).asObject();
+
+   Integer versionId = klassInstanceObject.get(&quot;versionId&quot;).asInt();
+   vars.put(&quot;versionId&quot;, versionId.toString());
+
+   vars.put(&quot;organizationIdInstance&quot;, klassInstanceObject.get(&quot;organizationId&quot;).toString());
+
+   vars.put(&quot;physicalCatalogIdInstance&quot;, klassInstanceObject.get(&quot;physicalCatalogId&quot;).toString());
+
+   vars.put(&quot;logicalCatalogIdInstance&quot;, klassInstanceObject.get(&quot;logicalCatalogId&quot;).toString());
+   
+   vars.put(&quot;endpointIdInstance&quot;, klassInstanceObject.get(&quot;endpointId&quot;).toString());
+
+   vars.put(&quot;defaultAssetInstanceIdInstance&quot;, klassInstanceObject.get(&quot;defaultAssetInstanceId&quot;).toString());
+
+   vars.put(&quot;originalInstanceId&quot;, klassInstanceObject.get(&quot;originalInstanceId&quot;).toString());
+      
+   JsonArray types = klassInstanceObject.get(&quot;types&quot;).asArray();
+   vars.put(&quot;types&quot;, types.toString());
+
+   JsonArray taxonomyIds = klassInstanceObject.get(&quot;taxonomyIds&quot;).asArray();
+   vars.put(&quot;taxonomyIds&quot;, taxonomyIds.toString());
+
+   JsonArray selectedTaxonomyIds = klassInstanceObject.get(&quot;selectedTaxonomyIds&quot;).asArray();
+   vars.put(&quot;selectedTaxonomyIds&quot;, selectedTaxonomyIds.toString());
+
+   String assetInstanceId = vars.get(&quot;assetInstanceId&quot;);
+
+   String relationshipId = vars.get(&quot;relationshipId&quot;);
+   String relationshipIdWithQuote = &quot;\&quot;&quot; + relationshipId + &quot;\&quot;&quot;;
+   JsonArray modifiedRelationship = new JsonArray();
+   
+   for(int i = 0; i &lt; contentRelationshipsArray.size(); i++ )
+   {
+   	JsonObject relationshipObject = contentRelationshipsArray.get(i).asObject();
+   	String relationshipIdOfRelation = relationshipObject.get(&quot;relationshipId&quot;).asString();
+	String relationshipIdFromContent = relationshipObject.get(&quot;id&quot;).asString();
+	
+   	if(relationshipIdOfRelation.equals(relationshipId))
+   	{
+   	 JsonObject referencedElements = configDetailsObject.get(&quot;referencedElements&quot;).asObject(); 	    	 
+   	 JsonObject configRelationshipObject = referencedElements.get(relationshipId).asObject();
+   	 JsonObject configRelationshipSideObject = configRelationshipObject.get(&quot;relationshipSide&quot;).asObject();
+     
+      String contextId = (configRelationshipSideObject.get(&quot;contextId&quot;) != null) &amp;&amp; (!configRelationshipSideObject.get(&quot;contextId&quot;).equals(JsonObject.NULL))  ? configRelationshipSideObject.get(&quot;contextId&quot;).asString() : null;
+	 
+      JsonArray addedElements = new JsonArray();
+	 JsonObject addedElementsObject = new JsonObject();
+      
+   	 if(contextId != null)
+   	 {
+   	   addedElementsObject.add(&quot;contextId&quot;, contextId);
+	   addedElementsObject.add(&quot;count&quot;, 1);
+	   addedElementsObject.add(&quot;id&quot;, assetInstanceId);
+	   addedElementsObject.add(&quot;versionId&quot;, 0);
+
+        JsonObject referencedVariantContexts   = configDetailsObject.get(&quot;referencedVariantContexts&quot;).asObject();
+	   JsonObject relationshipVariantContexts = referencedVariantContexts.get(&quot;relationshipVariantContexts&quot;).asObject();
+	   JsonObject configVariantContexts       = relationshipVariantContexts.get(contextId).asObject();
+
+	   JsonArray addedTags = new JsonArray();   	
+        JsonArray configTags = configVariantContexts.get(&quot;tags&quot;).asArray();
+        
+	   for(int j=0; j &lt; configTags.size(); j++)
+	   {
+	   	JsonObject tag = configTags.get(j).asObject();
+	   	String tagId = tag.get(&quot;tagId&quot;).asString();
+	   	
+          JsonObject addedTagObject = new JsonObject();
+	   	addedTagObject.add(&quot;baseType&quot;, &quot;com.cs.runtime.interactor.entity.TagInstance&quot;);
+	   	addedTagObject.add(&quot;id&quot;, UUID.randomUUID().toString());
+	   	addedTagObject.add(&quot;tagId&quot;, tagId);
+
+		JsonArray tagValues = new JsonArray();
+	   	addedTagObject.add(&quot;tagValues&quot;, tagValues); 	
+	   	
+	   	JsonArray tagValueIds = tag.get(&quot;tagValueIds&quot;).asArray();
+	   	for(int count =0; count &lt; tagValueIds.size(); count++)
+	   	{
+	   	  String childTagId = tagValueIds.get(count).asString();
+	   	  JsonObject tagValuesObject = new JsonObject();
+	   	  tagValuesObject.add(&quot;id&quot;, UUID.randomUUID().toString());
+	   	  if(count == 0)
+	   	  {
+	   	    tagValuesObject.add(&quot;relevance&quot;, 100);
+	   	  }
+	   	  else {
+	   	    tagValuesObject.add(&quot;relevance&quot;, 0);
+	   	  }
+	   	  
+	   	  tagValuesObject.add(&quot;tagId&quot;, childTagId);
+	   	  tagValuesObject.add(&quot;timestamp&quot;, System.currentTimeMillis());
+
+	   	  tagValues.add(tagValuesObject);
+	   	}
+
+	   	addedTags.add(addedTagObject);
+	   }
+	   
+	   addedElementsObject.add(&quot;tags&quot;, addedTags);
+		   	
+	   JsonObject timeObject = new JsonObject();
+	   timeObject.add(&quot;from&quot;, JsonObject.NULL);
+	   timeObject.add(&quot;to&quot;, JsonObject.NULL);
+	   addedElementsObject.add(&quot;timeRange&quot;, timeObject); 
+   	 }
+   	 else
+   	 {
+   	   addedElementsObject.add(&quot;contextId&quot;, JsonObject.NULL);
+	   addedElementsObject.add(&quot;count&quot;, 1);
+	   addedElementsObject.add(&quot;id&quot;, assetInstanceId);
+	   addedElementsObject.add(&quot;versionId&quot;, 0);
+	   addedElementsObject.add(&quot;tags&quot;, new JsonArray());
+	   addedElementsObject.add(&quot;timeRange&quot;, JsonObject.NULL); 
+   	 }
+
+   	 JsonObject modifiedRelationshipObject = new JsonObject();
+      modifiedRelationshipObject.add(&quot;baseType&quot;, &quot;com.cs.runtime.interactor.entity.AssetInstance&quot;);
+      modifiedRelationshipObject.add(&quot;deletedElements&quot;, new JsonArray());
+      modifiedRelationshipObject.add(&quot;id&quot;, relationshipIdFromContent);
+      modifiedRelationshipObject.add(&quot;modifiedContexts&quot;, new JsonArray());
+      modifiedRelationshipObject.add(&quot;modifiedElements&quot;, new JsonArray());
+      modifiedRelationshipObject.add(&quot;relationshipId&quot;, relationshipId);	
+	 
+      addedElements.add(addedElementsObject);
+      modifiedRelationshipObject.add(&quot;addedElements&quot;, addedElements);
+      modifiedRelationship.add(modifiedRelationshipObject);
+   	}
+    	
+   }
+
+ vars.put(&quot;modifiedRelationship&quot;, modifiedRelationship.toString());
+}  </stringProp>
+              </BeanShellPostProcessor>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Link Asset to Article" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&quot;baseType&quot;:&quot;com.cs.runtime.interactor.entity.ArticleInstance&quot;,&quot;id&quot;:&quot;${articleInstanceId}&quot;,&quot;versionId&quot;:${versionId},&quot;versionTimestamp&quot;:1520916936293,&quot;lastModifiedBy&quot;:&quot;45e4f5-1479&quot;,&quot;createdBy&quot;:&quot;admin&quot;,&quot;createdOn&quot;:1518171820999,&quot;owner&quot;:&quot;admin&quot;,&quot;lastModified&quot;:1520916935739,&quot;jobId&quot;:null,&quot;componentId&quot;:null,&quot;types&quot;:${types},&quot;taxonomyIds&quot;:${taxonomyIds},&quot;selectedTaxonomyIds&quot;:${selectedTaxonomyIds},&quot;organizationId&quot;:${organizationIdInstance},&quot;physicalCatalogId&quot;:${physicalCatalogIdInstance},&quot;logicalCatalogId&quot;:${logicalCatalogIdInstance},&quot;systemId&quot;:null,&quot;endpointId&quot;:${endpointIdInstance},&quot;originalInstanceId&quot;:${originalInstanceId},&quot;defaultAssetInstanceId&quot;:${defaultAssetInstanceIdInstance},&quot;branchOf&quot;:&quot;-1&quot;,&quot;versionOf&quot;:null,&quot;ruleViolation&quot;:[],&quot;messages&quot;:{&quot;notificationsCounter&quot;:0,&quot;isRed&quot;:true,&quot;isOrange&quot;:false,&quot;isYellow&quot;:false,&quot;isGreen&quot;:false,&quot;redCount&quot;:1,&quot;orangeCount&quot;:0,&quot;yellowCount&quot;:0,&quot;validityMessage&quot;:null,&quot;id&quot;:null,&quot;lastModifiedBy&quot;:null,&quot;versionTimestamp&quot;:null,&quot;versionId&quot;:null},&quot;context&quot;:null,&quot;summary&quot;:null,&quot;klassInstanceId&quot;:null,&quot;isSkipped&quot;:null,&quot;isFromExternalSource&quot;:null,&quot;path&quot;:[],&quot;parentVariantInstanceId&quot;:null,&quot;globalPermission&quot;:{&quot;id&quot;:null,&quot;canRead&quot;:true,&quot;canEdit&quot;:true,&quot;canDelete&quot;:true,&quot;canCreate&quot;:true,&quot;type&quot;:null,&quot;code&quot;:null,&quot;roleId&quot;:null,&quot;entityId&quot;:null,&quot;lastModifiedBy&quot;:null,&quot;versionTimestamp&quot;:null,&quot;versionId&quot;:null},&quot;addedAssets&quot;:[],&quot;deletedAssets&quot;:[],&quot;isDirty&quot;:true,&quot;addedAttributes&quot;:[],&quot;deletedAttributes&quot;:[],&quot;modifiedAttributes&quot;:[],&quot;addedRoles&quot;:[],&quot;deletedRoles&quot;:[],&quot;modifiedRoles&quot;:[],&quot;addedTags&quot;:[],&quot;deletedTags&quot;:[],&quot;modifiedTags&quot;:[],&quot;addedRelationships&quot;:[],&quot;deletedRelationships&quot;:[],&quot;modifiedRelationships&quot;:${modifiedRelationship},&quot;addedNatureRelationships&quot;:[],&quot;deletedNatureRelationships&quot;:[],&quot;modifiedNatureRelationships&quot;:[],&quot;modifiedAssets&quot;:[],&quot;addedLinkedInstances&quot;:[],&quot;deletedLinkedInstances&quot;:[],&quot;getKlassInstanceTreeInfo&quot;:{&quot;attributes&quot;:[],&quot;tags&quot;:[],&quot;allSearch&quot;:&quot;&quot;,&quot;size&quot;:20,&quot;from&quot;:0,&quot;isAttribute&quot;:false,&quot;isNumeric&quot;:false,&quot;selectedRoles&quot;:[],&quot;selectedTypes&quot;:[],&quot;isRed&quot;:false,&quot;isOrange&quot;:false,&quot;isYellow&quot;:false,&quot;isGreen&quot;:false},&quot;tabType&quot;:&quot;com.cs.config.interactor.entity.template.CustomTemplateTab&quot;,&quot;tabId&quot;:&quot;relationship_tab&quot;,&quot;typeId&quot;:null,&quot;templateId&quot;:null,&quot;isLinked&quot;:true}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${hostName}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding">${encodingType}</stringProp>
+              <stringProp name="HTTPSampler.path">/${hostAddress}/runtime/klassinstances/tabs?isRollback=false&amp;lang=${lang}&amp;sessionId=eba2249c-741c-4577-990e-7a775aea0f58&amp;requestId=264bd1af-4d6d-4452-8ec6-ae2ccaa3df17&amp;lang=${lang}&amp;organizationId=${organizationId}&amp;physicalCatalogId=${physicalCatalogId}&amp;endpointId=${endpointId}&amp;endpointType=${endpointType}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="Referer" elementType="Header">
+                    <stringProp name="Header.name">Referer</stringProp>
+                    <stringProp name="Header.value">http://localhost:8090/REST/?login=zf4gh9qxs7n11wxrp9nh0djbs</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Language" elementType="Header">
+                    <stringProp name="Header.name">Accept-Language</stringProp>
+                    <stringProp name="Header.value">en-US,en;q=0.5</stringProp>
+                  </elementProp>
+                  <elementProp name="X-Requested-With" elementType="Header">
+                    <stringProp name="Header.name">X-Requested-With</stringProp>
+                    <stringProp name="Header.value">XMLHttpRequest</stringProp>
+                  </elementProp>
+                  <elementProp name="Content-Type" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json; charset=utf-8</stringProp>
+                  </elementProp>
+                  <elementProp name="userId" elementType="Header">
+                    <stringProp name="Header.name">userId</stringProp>
+                    <stringProp name="Header.value">730e576b-9203-4f58-a0d6-443596f656f7</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept-Encoding" elementType="Header">
+                    <stringProp name="Header.name">Accept-Encoding</stringProp>
+                    <stringProp name="Header.value">gzip, deflate</stringProp>
+                  </elementProp>
+                  <elementProp name="User-Agent" elementType="Header">
+                    <stringProp name="Header.name">User-Agent</stringProp>
+                    <stringProp name="Header.value">Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:45.0) Gecko/20100101 Firefox/45.0</stringProp>
+                  </elementProp>
+                  <elementProp name="Accept" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json, text/javascript, */*; q=0.01</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+        </hashTree>
+      </hashTree>
+      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+          </value>
+        </objProp>
+        <stringProp name="filename">C:\LoadTest\jmeterDataFilesForLutz40K\logsForTest\Aggregate.csv</stringProp>
+        <boolProp name="useGroupName">true</boolProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+          </value>
+        </objProp>
+        <stringProp name="filename">C:\LoadTest\jmeterDataFilesForLutz40K\logsForTest\Result_Tree.csv</stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="View Results in Table" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+          </value>
+        </objProp>
+        <stringProp name="filename">C:\LoadTest\jmeterDataFilesForLutz40K\logsForTest\Result_Table.csv</stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="***********System_Configuration***********" elementType="Argument">
+            <stringProp name="Argument.name">***********System_Configuration***********</stringProp>
+            <stringProp name="Argument.value"></stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="hostName" elementType="Argument">
+            <stringProp name="Argument.name">hostName</stringProp>
+            <stringProp name="Argument.value">${__P(hostName,192.168.135.147)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="port" elementType="Argument">
+            <stringProp name="Argument.name">port</stringProp>
+            <stringProp name="Argument.value">${__P(port,8080)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="userName" elementType="Argument">
+            <stringProp name="Argument.name">userName</stringProp>
+            <stringProp name="Argument.value">${__P(userName,admin)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="passWord" elementType="Argument">
+            <stringProp name="Argument.name">passWord</stringProp>
+            <stringProp name="Argument.value">${__P(passWord,YWRtaW46OlBhc3NAMTIzJA==)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="hostAddress" elementType="Argument">
+            <stringProp name="Argument.name">hostAddress</stringProp>
+            <stringProp name="Argument.value">loadtest</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="protocol" elementType="Argument">
+            <stringProp name="Argument.name">protocol</stringProp>
+            <stringProp name="Argument.value">${__P(protocol,http)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="extendedFileName" elementType="Argument">
+            <stringProp name="Argument.name">extendedFileName</stringProp>
+            <stringProp name="Argument.value">${__P(extendedFileName,)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="encodingType" elementType="Argument">
+            <stringProp name="Argument.name">encodingType</stringProp>
+            <stringProp name="Argument.value">utf-8</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="noOfUsers" elementType="Argument">
+            <stringProp name="Argument.name">noOfUsers</stringProp>
+            <stringProp name="Argument.value">1</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="ramupTime" elementType="Argument">
+            <stringProp name="Argument.name">ramupTime</stringProp>
+            <stringProp name="Argument.value">1</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="loopCount" elementType="Argument">
+            <stringProp name="Argument.name">loopCount</stringProp>
+            <stringProp name="Argument.value">1</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="************File_Path_Related_Configuration*********" elementType="Argument">
+            <stringProp name="Argument.name">************File_Path_Related_Configuration*********</stringProp>
+            <stringProp name="Argument.value"></stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="filesPath" elementType="Argument">
+            <stringProp name="Argument.name">filesPath</stringProp>
+            <stringProp name="Argument.value">C:\\LoadTest\\jmeterDataFilesForLutz40K\\</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="***********Other_Configuration_URL_Related**************" elementType="Argument">
+            <stringProp name="Argument.name">***********Other_Configuration_URL_Related**************</stringProp>
+            <stringProp name="Argument.value"></stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="lang" elementType="Argument">
+            <stringProp name="Argument.name">lang</stringProp>
+            <stringProp name="Argument.value">en_US</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="organizationId" elementType="Argument">
+            <stringProp name="Argument.name">organizationId</stringProp>
+            <stringProp name="Argument.value">-1</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="physicalCatalogId" elementType="Argument">
+            <stringProp name="Argument.name">physicalCatalogId</stringProp>
+            <stringProp name="Argument.value">pim</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="endpointId" elementType="Argument">
+            <stringProp name="Argument.name">endpointId</stringProp>
+            <stringProp name="Argument.value">null</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="endpointType" elementType="Argument">
+            <stringProp name="Argument.name">endpointType</stringProp>
+            <stringProp name="Argument.value">null</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="instanceModule" elementType="Argument">
+            <stringProp name="Argument.name">instanceModule</stringProp>
+            <stringProp name="Argument.value">klassinstances</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="*************Pre_Loaded_Data_Configuration***************" elementType="Argument">
+            <stringProp name="Argument.name">*************Pre_Loaded_Data_Configuration***************</stringProp>
+            <stringProp name="Argument.value"></stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="saveArticle_NoOfAttributes" elementType="Argument">
+            <stringProp name="Argument.name">saveArticle_NoOfAttributes</stringProp>
+            <stringProp name="Argument.value">20</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="saveArticle_NoOfTags" elementType="Argument">
+            <stringProp name="Argument.name">saveArticle_NoOfTags</stringProp>
+            <stringProp name="Argument.value">20</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="parametricSearch2_NoOfAttributes" elementType="Argument">
+            <stringProp name="Argument.name">parametricSearch2_NoOfAttributes</stringProp>
+            <stringProp name="Argument.value">20</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="parametricSearch2_NoOfTags" elementType="Argument">
+            <stringProp name="Argument.name">parametricSearch2_NoOfTags</stringProp>
+            <stringProp name="Argument.value">6</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="parametricSearch3_NoOfAttributes" elementType="Argument">
+            <stringProp name="Argument.name">parametricSearch3_NoOfAttributes</stringProp>
+            <stringProp name="Argument.value">20</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="parametricSearch3_NoOfTags" elementType="Argument">
+            <stringProp name="Argument.name">parametricSearch3_NoOfTags</stringProp>
+            <stringProp name="Argument.value">6</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
+      <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

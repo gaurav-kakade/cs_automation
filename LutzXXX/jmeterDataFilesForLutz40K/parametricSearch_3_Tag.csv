@@ -1,0 +1,6 @@
+tag1,T_1001,tag_type_yes_neutral,T_1101,range,100,100,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueRangeModel
+tag2,T_1002,tag_type_yes_neutral,T_1202,range,100,100,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueRangeModel
+tag3,T_1003,tag_type_yes_neutral,T_1103,range,100,100,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueRangeModel
+tag4,T_1004,tag_type_yes_neutral,T_1204,range,100,100,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueRangeModel
+tag5,T_1005,tag_type_yes_neutral,T_1105,range,100,100,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueRangeModel
+tag6,T_1006,tag_type_yes_neutral,T_1206,range,100,100,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueRangeModel
