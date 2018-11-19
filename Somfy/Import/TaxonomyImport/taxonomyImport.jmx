@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="2.9" jmeter="3.0 r1743807">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1540804263000</longProp>
+        <longProp name="ThreadGroup.end_time">1540804263000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+          <collectionProp name="Arguments.arguments">
+            <elementProp name="******Execution Config" elementType="Argument">
+              <stringProp name="Argument.name">******Execution Config</stringProp>
+              <stringProp name="Argument.value"></stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="NoOfLevel" elementType="Argument">
+              <stringProp name="Argument.name">NoOfLevel</stringProp>
+              <stringProp name="Argument.value">5</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+              <stringProp name="Argument.desc">=&gt; No. of levels  in the taxanomy</stringProp>
+            </elementProp>
+            <elementProp name="NoOfChildForEachLevel" elementType="Argument">
+              <stringProp name="Argument.name">NoOfChildForEachLevel</stringProp>
+              <stringProp name="Argument.value">4</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+              <stringProp name="Argument.desc">=&gt; No. of child for each Level</stringProp>
+            </elementProp>
+            <elementProp name="TaxonomyId" elementType="Argument">
+              <stringProp name="Argument.name">TaxonomyId</stringProp>
+              <stringProp name="Argument.value">JMSTaxonomyImport</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="rampUP" elementType="Argument">
+              <stringProp name="Argument.name">rampUP</stringProp>
+              <stringProp name="Argument.value">1</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="loopCount" elementType="Argument">
+              <stringProp name="Argument.name">loopCount</stringProp>
+              <stringProp name="Argument.value">1</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="******Active mq Config" elementType="Argument">
+              <stringProp name="Argument.name">******Active mq Config</stringProp>
+              <stringProp name="Argument.value"></stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="ActiveMqUrl" elementType="Argument">
+              <stringProp name="Argument.name">ActiveMqUrl</stringProp>
+              <stringProp name="Argument.value">tcp://192.168.134.72:61616</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="queueName" elementType="Argument">
+              <stringProp name="Argument.name">queueName</stringProp>
+              <stringProp name="Argument.value">1t_somfy_queue</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="acknowledgementQueue" elementType="Argument">
+              <stringProp name="Argument.name">acknowledgementQueue</stringProp>
+              <stringProp name="Argument.value">1t_somfy_queue_ack</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+          </collectionProp>
+        </Arguments>
+        <hashTree/>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler" enabled="true">
+          <stringProp name="BeanShellSampler.query">    import com.eclipsesource.json.*;
+    
+    int numberOfLevel = ${NoOfLevel};
+    int numberOfChild = ${NoOfChildForEachLevel};
+
+    JsonObject taxonomyLevel    = new JsonObject();
+    JsonArray taxonomyChildren  = new JsonArray();
+    String levelId = &quot;&quot;;
+    String childId = &quot;&quot;;
+    String childParentId = &quot;${TaxonomyId}&quot;;
+    for(int level = 0; level &lt; numberOfLevel; level++) {
+        levelCode = &quot;Level_id_&quot; + level;
+    	   taxonomyLevel.add(levelCode, &quot;Level_&quot; + level);
+        for(int childLevel = 0; childLevel &lt; numberOfChild; childLevel++) {
+                JsonObject childForLevel    = new JsonObject();
+                childId = &quot;id_&quot; + level + &quot;_&quot; + childLevel;
+                childForLevel.add(&quot;id&quot;, childId);
+                childForLevel.add(&quot;label&quot;, &quot;Child_&quot; + childLevel);
+                childForLevel.add(&quot;parentId&quot;, childParentId);
+                taxonomyChildren.add(childForLevel);
+        }
+        childParentId = childId;
+    }
+    vars.put(&quot;TaxonomyLevels&quot;, taxonomyLevel.toString());
+    vars.put(&quot;TaxonomyChilderns&quot;, taxonomyChildren.toString());
+    props.put(&quot;queue&quot;, vars.get(&quot;queueName&quot;));
+</stringProp>
+          <stringProp name="BeanShellSampler.filename"></stringProp>
+          <stringProp name="BeanShellSampler.parameters"></stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
+        <hashTree/>
+        <JMSSampler guiclass="JMSSamplerGui" testclass="JMSSampler" testname="JMS Point-to-Point" enabled="true">
+          <stringProp name="JMSSampler.queueconnectionfactory">ConnectionFactory</stringProp>
+          <stringProp name="JMSSampler.SendQueue">Q.REQ</stringProp>
+          <stringProp name="JMSSampler.ReceiveQueue"></stringProp>
+          <boolProp name="JMSSampler.isFireAndForget">true</boolProp>
+          <boolProp name="JMSSampler.isNonPersistent">false</boolProp>
+          <boolProp name="JMSSampler.useReqMsgIdAsCorrelId">false</boolProp>
+          <stringProp name="JMSSampler.timeout"></stringProp>
+          <stringProp name="HTTPSamper.xml_data">{
+    &quot;id&quot;: &quot;JMSTaxonomyImport&quot;,
+	&quot;label&quot;: &quot;JMSImportOfTaxonomy&quot;,
+	&quot;type&quot;: &quot;master&quot;,
+	&quot;linkedLevels&quot;: ${TaxonomyLevels},
+	&quot;taxonomyType&quot;: &quot;minorTaxonomy&quot;,
+	&quot;children&quot;: ${TaxonomyChilderns}
+}</stringProp>
+          <stringProp name="JMSSampler.initialContextFactory">org.apache.activemq.jndi.ActiveMQInitialContextFactory</stringProp>
+          <stringProp name="JMSSampler.contextProviderUrl">${ActiveMqUrl}</stringProp>
+          <elementProp name="JMSSampler.jndiProperties" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="queue.Q.REQ" elementType="Argument">
+                <stringProp name="Argument.name">queue.Q.REQ</stringProp>
+                <stringProp name="Argument.value">${__P(queue,)}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <elementProp name="arguments" elementType="JMSProperties">
+            <collectionProp name="JMSProperties.properties"/>
+          </elementProp>
+        </JMSSampler>
+        <hashTree/>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler" enabled="true">
+          <stringProp name="BeanShellSampler.query">    import automation_utility.*; 
+    import com.eclipsesource.json.*;
+
+    String jmsAckMessage = null;
+    try{
+        ActiveMqConsumer consumer = new ActiveMqConsumer(&quot;${ActiveMqUrl}&quot;);
+        consumer.initiateConnection();
+        jmsAckMessage             = consumer.getMessageFromQueue(&quot;${acknowledgementQueue}&quot;);
+        consumer.closeConnection();
+        log.info(jmsAckMessage.toString());
+        if(jmsAckMessage != null) {
+        	JsonObject jmsAckJsonObject = Json.parse(jmsAckMessage).asObject();
+        	JsonObject summaryObject    = jmsAckJsonObject.get(&quot;summary&quot;);
+          int successCount            = Integer.parseInt(summaryObject.get(&quot;successCount&quot;).asString());
+          int importCount		   = (${NoOfLevel} * ${NoOfChildForEachLevel}) + 1;
+          if(importCount == successCount) {
+          	log.info(&quot;******************** Import Completed ********************&quot;);
+          } else {
+          	log.info(&quot;#################### Import Failed ####################&quot;);
+          }
+        }
+    }
+    catch(Exception e)
+    {
+        log.error(&quot;JMSQueue1 =&gt; &quot; + e.getMessage());	
+    }</stringProp>
+          <stringProp name="BeanShellSampler.filename"></stringProp>
+          <stringProp name="BeanShellSampler.parameters"></stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
