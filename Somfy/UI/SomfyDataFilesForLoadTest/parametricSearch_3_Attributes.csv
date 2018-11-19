@@ -1,0 +1,20 @@
+attr1,A_100002,com.cs.config.interactor.entity.concrete.attribute.NumberAttribute,range,10,1,,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueRangeModel
+attr2,A_100098,com.cs.config.interactor.entity.concrete.attribute.NumberAttribute,range,10,1,,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueRangeModel
+attr3,A_100122,com.cs.config.interactor.entity.concrete.attribute.NumberAttribute,range,10,1,,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueRangeModel
+attr4,A_100146,com.cs.config.interactor.entity.concrete.attribute.NumberAttribute,range,10,1,,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueRangeModel
+attr5,A_100182,com.cs.config.interactor.entity.concrete.attribute.NumberAttribute,range,10,1,,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueRangeModel
+attr6,nameattribute,com.cs.config.interactor.entity.concrete.attribute.standard.NameAttribute,exact,,,SAMSUNG 4K TV,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueMatchModel
+attr7,A_100025,com.cs.config.interactor.entity.concrete.attribute.TextAttribute,exact,,,Sample_Text_Value_1,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueMatchModel
+attr8,A_100065,com.cs.config.interactor.entity.concrete.attribute.TextAttribute,exact,,,Sample_Text_Value_1,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueMatchModel
+attr9,A_100069,com.cs.config.interactor.entity.concrete.attribute.TextAttribute,exact,,,Sample_Text_Value_1,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueMatchModel
+attr10,A_100089,com.cs.config.interactor.entity.concrete.attribute.TextAttribute,exact,,,Sample_Text_Value_1,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueMatchModel
+attr11,A_100101,com.cs.config.interactor.entity.concrete.attribute.TextAttribute,exact,,,Sample_Text_Value_1,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueMatchModel
+attr12,A_100145,com.cs.config.interactor.entity.concrete.attribute.TextAttribute,exact,,,Sample_Text_Value_1,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueMatchModel
+attr13,A_100003,com.cs.config.interactor.entity.concrete.attribute.CustomUnitAttribute,range,1,10,,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueRangeModel
+attr14,A_100008,com.cs.config.interactor.entity.concrete.attribute.LengthAttribute,range,1,10,,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueRangeModel
+attr15,A_100059,com.cs.config.interactor.entity.concrete.attribute.CustomUnitAttribute,range,1,10,,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueRangeModel
+attr16,A_100060,com.cs.config.interactor.entity.concrete.attribute.LengthAttribute,range,1,10,,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueRangeModel
+attr17,A_100067,com.cs.config.interactor.entity.concrete.attribute.CustomUnitAttribute,range,1,10,,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueRangeModel
+attr18,A_100067,com.cs.config.interactor.entity.concrete.attribute.CustomUnitAttribute,range,1,10,,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueRangeModel
+attr19,A_100095,com.cs.config.interactor.entity.concrete.attribute.CustomUnitAttribute,range,1,10,,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueRangeModel
+attr20,A_100144,com.cs.config.interactor.entity.concrete.attribute.LengthAttribute,range,1,10,,com.cs.runtime.interactor.model.klassinstance.filter.FilterValueRangeModel
