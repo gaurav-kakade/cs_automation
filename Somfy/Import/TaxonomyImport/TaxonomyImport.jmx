@@ -35,13 +35,13 @@
             </elementProp>
             <elementProp name="NoOfLevel" elementType="Argument">
               <stringProp name="Argument.name">NoOfLevel</stringProp>
-              <stringProp name="Argument.value">5</stringProp>
+              <stringProp name="Argument.value">2</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
               <stringProp name="Argument.desc">=&gt; No. of levels  in the taxanomy</stringProp>
             </elementProp>
             <elementProp name="NoOfChildForEachLevel" elementType="Argument">
               <stringProp name="Argument.name">NoOfChildForEachLevel</stringProp>
-              <stringProp name="Argument.value">4</stringProp>
+              <stringProp name="Argument.value">2</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
               <stringProp name="Argument.desc">=&gt; No. of child for each Level</stringProp>
             </elementProp>
@@ -72,12 +72,17 @@
             </elementProp>
             <elementProp name="queueName" elementType="Argument">
               <stringProp name="Argument.name">queueName</stringProp>
-              <stringProp name="Argument.value">1t_somfy_queue</stringProp>
+              <stringProp name="Argument.value">importTaxonomy</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
             <elementProp name="acknowledgementQueue" elementType="Argument">
               <stringProp name="Argument.name">acknowledgementQueue</stringProp>
-              <stringProp name="Argument.value">1t_somfy_queue_ack</stringProp>
+              <stringProp name="Argument.value">Taxonomyack</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="**********NOTE************" elementType="Argument">
+              <stringProp name="Argument.name">**********NOTE************</stringProp>
+              <stringProp name="Argument.value">Please pass queue name hardcoded while specifying it in JMS point to point component in jms property value</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
           </collectionProp>
@@ -138,7 +143,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="queue.Q.REQ" elementType="Argument">
                 <stringProp name="Argument.name">queue.Q.REQ</stringProp>
-                <stringProp name="Argument.value">${__P(queue,)}</stringProp>
+                <stringProp name="Argument.value">importTaxonomy</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -164,6 +169,8 @@
         	JsonObject summaryObject    = jmsAckJsonObject.get(&quot;summary&quot;);
           int successCount            = Integer.parseInt(summaryObject.get(&quot;successCount&quot;).asString());
           int importCount		   = (${NoOfLevel} * ${NoOfChildForEachLevel}) + 1;
+          log.info(&quot;******************** ********************&quot;+ importCount);
+           
           if(importCount == successCount) {
           	log.info(&quot;******************** Import Completed ********************&quot;);
           } else {

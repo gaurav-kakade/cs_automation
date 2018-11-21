@@ -26,13 +26,13 @@
           </elementProp>
           <elementProp name="batchCapacity" elementType="Argument">
             <stringProp name="Argument.name">batchCapacity</stringProp>
-            <stringProp name="Argument.value">5000</stringProp>
+            <stringProp name="Argument.value">1</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
             <stringProp name="Argument.desc">=&gt;it should be equal to or smaller than no. of rows in article_record</stringProp>
           </elementProp>
           <elementProp name="rampUP" elementType="Argument">
             <stringProp name="Argument.name">rampUP</stringProp>
-            <stringProp name="Argument.value">10</stringProp>
+            <stringProp name="Argument.value">1</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="loopCount" elementType="Argument">
@@ -77,6 +77,11 @@
             <stringProp name="Argument.value">admin</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
             <stringProp name="Argument.desc">=&gt;password is hardcoded</stringProp>
+          </elementProp>
+          <elementProp name="********Note*******************" elementType="Argument">
+            <stringProp name="Argument.name">********Note*******************</stringProp>
+            <stringProp name="Argument.value">Please pass ActiveMq queue name hardcoded  in JMS Point to point component while specifying JNDI Property value(i.e queue name)</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
       </Arguments>
@@ -544,7 +549,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="queue.Q.REQ" elementType="Argument">
                 <stringProp name="Argument.name">queue.Q.REQ</stringProp>
-                <stringProp name="Argument.value">${__P(queue,)}</stringProp>
+                <stringProp name="Argument.value">importproduct</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -585,6 +590,7 @@
           <stringProp name="cacheKey"></stringProp>
           <stringProp name="script">    import automation_utility.*;  
     try{
+ 
         ActiveMqConsumer consumer = new ActiveMqConsumer(&quot;${ActiveMqUrl}&quot;);
         consumer.initiateConnection();
         vars.putObject(&quot;jmsQueueConnection&quot;, consumer);
@@ -631,7 +637,7 @@
         ActiveMqConsumer consumer = vars.getObject(&quot;jmsQueueConnection&quot;);
       
         jmsAckMessage             = consumer.getMessageFromQueue(&quot;${acknowledgeQueueName}&quot;);
-       //   log.info(&quot;888888888888&quot;+jmsAckMessage);
+      
 
         if(jmsAckMessage != null) {
         	JsonObject jmsAckJsonObject = Json.parse(jmsAckMessage).asObject();
@@ -658,6 +664,7 @@
           <stringProp name="script">    import automation_utility.*;  
     
     try {
+    	
          ActiveMqConsumer consumer = vars.getObject(&quot;jmsQueueConnection&quot;);
          consumer.closeConnection();
     }
