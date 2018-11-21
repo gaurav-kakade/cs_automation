@@ -4,7 +4,7 @@
     <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
       <stringProp name="TestPlan.comments"></stringProp>
       <boolProp name="TestPlan.functional_mode">false</boolProp>
-      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
@@ -516,10 +516,10 @@ if(responseCode.equals(&quot;200&quot;))
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="cacheKey"></stringProp>
-          <stringProp name="script">    import activeMQ_Consumer.*;  
+          <stringProp name="script">    import automation_package.*;  
     
     try{    
-        ActiveMqConsumer consumer = new ActiveMqConsumer(&quot;${ActiveMqUrl}&quot;);
+        ConsumerActiveMq consumer = new ConsumerActiveMq(&quot;${ActiveMqUrl}&quot;);
         consumer.initiateConnection();
         vars.putObject(&quot;jmsQueueConnection&quot;, consumer);
         log.info(&quot;------------------&quot;);
@@ -538,13 +538,13 @@ if(responseCode.equals(&quot;200&quot;))
           <stringProp name="filename"></stringProp>
           <stringProp name="cacheKey"></stringProp>
           <stringProp name="script">import com.eclipsesource.json.*;
-import activeMQ_Consumer.*;  
+import automation_package.*;  
        
 String jmsAckMessage = null;
   
   try
   {
-  	ActiveMqConsumer consumer = vars.getObject(&quot;jmsQueueConnection&quot;);
+  	ConsumerActiveMq consumer = vars.getObject(&quot;jmsQueueConnection&quot;);
   	log.info(&quot;***********************&quot;);
   	jmsAckMessage = consumer.getMessageFromQueue(&quot;${queueName}&quot;);
   	log.info(jmsAckMessage);
@@ -573,11 +573,11 @@ String jmsAckMessage = null;
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="cacheKey"></stringProp>
-          <stringProp name="script">import activeMQ_Consumer.*;  
+          <stringProp name="script">import automation_package.*;  
     
     try 
     {
-    	ActiveMqConsumer consumer = vars.getObject(&quot;jmsQueueConnection&quot;);
+    	ConsumerActiveMq consumer = vars.getObject(&quot;jmsQueueConnection&quot;);
     	consumer.closeConnection();
 
     	log.info(&quot;The total number of queues&apos; created &amp; consumed is:: &quot;+${queues_created});
